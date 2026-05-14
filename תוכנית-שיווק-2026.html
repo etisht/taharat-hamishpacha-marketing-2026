@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>תוכנית שיווק שנתית – טהרת המשפחה 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #6B4C8B;
+    --primary-light: #8B6AAB;
+    --primary-dark: #4A3060;
+    --accent: #C9A84C;
+    --accent-light: #E8CC80;
+    --bg: #F9F6F2;
+    --bg-card: #FFFFFF;
+    --text: #2C2035;
+    --text-muted: #6B5B7A;
+    --border: #E2D5F0;
+    --video-bg: #EDE5F5;
+    --post-bg: #FDF6E3;
+    --success: #4CAF80;
+    --sidebar-w: 260px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  /* SIDEBAR */
+  #sidebar {
+    position: fixed;
+    right: 0; top: 0; bottom: 0;
+    width: var(--sidebar-w);
+    background: var(--primary-dark);
+    color: #fff;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  #sidebar .logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  #sidebar .logo h1 { font-size: 16px; font-weight: 700; line-height: 1.4; }
+  #sidebar .logo p { font-size: 12px; opacity: 0.65; margin-top: 4px; }
+  #sidebar nav { flex: 1; padding: 12px 0; }
+  #sidebar nav a {
+    display: block;
+    padding: 10px 20px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    border-right: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  #sidebar nav a:hover, #sidebar nav a.active {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-right-color: var(--accent);
+  }
+  #sidebar nav .section-header {
+    padding: 14px 20px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  #sidebar .actions {
+    padding: 16px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  /* MAIN */
+  #main {
+    margin-right: var(--sidebar-w);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+  /* TOPBAR */
+  #topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  #topbar h2 { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
+  #topbar .meta { font-size: 12px; color: var(--text-muted); }
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-accent:hover { background: #B8932E; }
+  .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+  .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+  .btn-outline:hover { background: var(--primary); color: #fff; }
+  #save-indicator {
+    font-size: 12px;
+    color: var(--success);
+    display: none;
+    align-items: center;
+    gap: 4px;
+  }
+  #save-indicator.show { display: flex; }
+  /* SECTIONS */
+  .section {
+    padding: 40px 36px;
+    display: none;
+  }
+  .section.active { display: block; }
+  .section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+  }
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+  /* EDITABLE */
+  [contenteditable] {
+    outline: none;
+    border-radius: 4px;
+    transition: background 0.15s;
+    cursor: text;
+  }
+  [contenteditable]:hover { background: rgba(107,76,139,0.06); }
+  [contenteditable]:focus {
+    background: rgba(107,76,139,0.1);
+    box-shadow: 0 0 0 2px rgba(107,76,139,0.3);
+    padding: 2px 4px;
+    margin: -2px -4px;
+  }
+  /* OVERVIEW */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .info-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .info-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-card h3::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .goal-list { list-style: none; }
+  .goal-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+  }
+  .goal-list li:last-child { border-bottom: none; }
+  .goal-list li::before {
+    content: '✦';
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .emphasis-list { list-style: none; }
+  .emphasis-list li {
+    padding: 6px 0 6px 12px;
+    font-size: 14px;
+    position: relative;
+  }
+  .emphasis-list li::before {
+    content: '•';
+    color: var(--primary-light);
+    position: absolute;
+    right: 0;
+  }
+  .weekly-structure-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .weekly-structure-table th, .weekly-structure-table td {
+    padding: 10px 14px;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+  }
+  .weekly-structure-table th {
+    background: var(--video-bg);
+    font-weight: 700;
+    color: var(--primary-dark);
+    font-size: 12px;
+  }
+  /* ANNUAL TABLE */
+  .annual-table-wrap { overflow-x: auto; }
+  .annual-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(107,76,139,0.08);
+  }
+  .annual-table th {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 14px;
+    font-weight: 700;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .annual-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .annual-table tr:hover td { background: var(--video-bg); }
+  .annual-table tr:last-child td { border-bottom: none; }
+  .week-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .presenter-badge {
+    display: inline-block;
+    background: var(--video-bg);
+    color: var(--primary-dark);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  /* WEEK CARDS */
+  .weeks-grid { display: flex; flex-direction: column; gap: 16px; }
+  .week-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .week-card:hover { box-shadow: 0 4px 20px rgba(107,76,139,0.12); }
+  .week-header {
+    padding: 18px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+  .week-header:hover { background: var(--video-bg); }
+  .week-header .num {
+    width: 36px;
+    height: 36px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .week-header .info { flex: 1; }
+  .week-header .info h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 2px;
+  }
+  .week-header .info p {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .week-header .chevron {
+    font-size: 16px;
+    color: var(--primary-light);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .week-card.open .week-header .chevron { transform: rotate(180deg); }
+  .week-body { display: none; padding: 0 24px 24px; }
+  .week-card.open .week-body { display: block; }
+  .week-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .content-block {
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .content-block.video { background: var(--video-bg); }
+  .content-block.post { background: var(--post-bg); }
+  .content-block h4 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .content-block.video h4 { color: var(--primary-dark); }
+  .content-block.post h4 { color: #8B6A20; }
+  .field-row { margin-bottom: 10px; }
+  .field-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+    display: block;
+  }
+  .field-value {
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 20px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    display: block;
+  }
+  .emphasis-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .emphasis-item {
+    font-size: 13px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .emphasis-item::before {
+    content: '•';
+    color: var(--primary-light);
+    flex-shrink: 0;
+  }
+  .post-text-block {
+    background: var(--post-bg);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .post-text-block h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #8B6A20;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .post-text-full {
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    padding: 8px;
+    border-radius: 6px;
+    min-height: 80px;
+  }
+  .hashtags {
+    font-size: 12px;
+    color: var(--primary);
+    margin-top: 8px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    display: block;
+  }
+  /* RECOMMENDATIONS */
+  .recs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .kpi-table { width: 100%; border-collapse: collapse; }
+  .kpi-table th, .kpi-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    text-align: right;
+  }
+  .kpi-table th { background: var(--video-bg); font-weight: 700; font-size: 12px; }
+  .content-types-list { list-style: none; }
+  .content-types-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .content-types-list li::before { content: '▸'; color: var(--accent); }
+  /* FB COPY BLOCK */
+  .fb-post-block {
+    background: #E7F0FD;
+    border: 1.5px solid #B8D0F8;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .fb-post-block h4 {
+    font-size: 12px; font-weight: 700; color: #1a4f9e;
+    margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .fb-post-text {
+    font-size: 14px; line-height: 1.85; white-space: pre-wrap;
+    padding: 10px; border-radius: 6px; min-height: 60px;
+    background: rgba(255,255,255,0.6);
+  }
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #1877F2; color: #fff; border: none; border-radius: 6px;
+    padding: 5px 12px; font-size: 11px; font-weight: 700;
+    font-family: 'Heebo', sans-serif; cursor: pointer; transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover { background: #1558b0; }
+  .copy-btn.copied { background: #4CAF80; }
+
+  /* MONTHLY ADS */
+  .monthly-grid { display: flex; flex-direction: column; gap: 20px; }
+  .month-card {
+    background: #fff; border-radius: 16px; border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .month-header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #fff; padding: 14px 22px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .month-num {
+    width: 40px; height: 40px; background: rgba(255,255,255,0.2);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; flex-shrink: 0;
+  }
+  .month-header h3 { font-size: 17px; font-weight: 700; }
+  .month-header p { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+  .month-body { padding: 20px; }
+  .month-grid-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
+  }
+  .month-field { }
+  .month-field .mf-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted);
+    text-transform: uppercase; margin-bottom: 4px; display: block;
+  }
+  .month-field .mf-value {
+    font-size: 13px; line-height: 1.6; padding: 6px 8px;
+    border-radius: 6px; background: var(--bg); border: 1px solid var(--border);
+    min-height: 32px; display: block;
+  }
+  .ad-copy-block {
+    background: #FFF8E8; border: 1.5px solid #F0D080;
+    border-radius: 10px; padding: 14px; margin-top: 4px;
+  }
+  .ad-copy-block .ac-label {
+    font-size: 11px; font-weight: 700; color: #8B6A20; margin-bottom: 8px; display: block;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ad-copy-text {
+    font-size: 13px; line-height: 1.75; white-space: pre-wrap;
+    padding: 8px; border-radius: 6px; background: rgba(255,255,255,0.7);
+    min-height: 60px;
+  }
+  .season-tag {
+    display: inline-block; background: var(--accent-light); color: #6B4A00;
+    border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700;
+    margin-top: 8px;
+  }
+
+  /* PRINT */
+  @media print {
+    #sidebar, #topbar { display: none !important; }
+    #main { margin-right: 0 !important; }
+    .section { display: block !important; page-break-after: always; }
+    .week-body { display: block !important; }
+    [contenteditable]:hover, [contenteditable]:focus { background: transparent !important; box-shadow: none !important; }
+  }
+  /* Scrollbar */
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="logo">
+    <h1>תוכנית שיווק שנתית</h1>
+    <p>טהרת המשפחה 2026 – פייסבוק</p>
+  </div>
+  <nav>
+    <div class="section-header">ניווט ראשי</div>
+    <a href="#" onclick="showSection('overview')" id="nav-overview">🎯 סקירה כללית</a>
+    <a href="#" onclick="showSection('annual')" id="nav-annual">📅 טבלה שנתית</a>
+    <a href="#" onclick="showSection('weeks')" id="nav-weeks">📝 תכנון שבועי</a>
+    <a href="#" onclick="showSection('recs')" id="nav-recs">💡 המלצות</a>
+    <a href="#" onclick="showSection('monthly')" id="nav-monthly">💰 פרסום ממומן חודשי</a>
+    <div class="section-header">שבועות מהירים</div>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(1)">שבוע 1 – יציבות בזוגיות</a>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(5)">שבוע 5 – זוגיות בעומס</a>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(12)">שבוע 12 – מאחורי המקווה</a>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(21)">שבוע 21 – התחלה חדשה</a>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(52)">שבוע 52 – שנה של בתים</a>
+  </nav>
+  <div class="actions">
+    <button class="btn btn-accent" onclick="saveAll()">💾 שמור שינויים</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 הדפס / PDF</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main id="main">
+  <div id="topbar">
+    <div>
+      <h2 id="page-title">סקירה כללית</h2>
+      <div class="meta">לחץ על כל טקסט לעריכה • שינויים נשמרים אוטומטית</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span id="save-indicator">✓ נשמר</span>
+      <button class="btn btn-primary" onclick="saveAll()">💾 שמור</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION: OVERVIEW ===== -->
+  <section class="section active" id="sec-overview">
+    <div class="section-title">תוכנית שיווק שנתית – פייסבוק אורגני</div>
+    <div class="section-subtitle">המרכז הארצי לטהרת המשפחה • 2026</div>
+
+    <div class="overview-grid">
+      <div class="info-card">
+        <h3>מטרות התוכנית</h3>
+        <ul class="goal-list" id="goals-list">
+          <li><span contenteditable="true">חיזוק מיתוג העמותה כגוף מחבר, מכובד ומשפיע.</span></li>
+          <li><span contenteditable="true">חיזוק הקשר לערכי טהרת המשפחה בצורה נגישה ומחברת.</span></li>
+          <li><span contenteditable="true">יצירת חיבור רגשי שיגדיל רצון לתרום ולהיות שותפים.</span></li>
+          <li><span contenteditable="true">יצירת גשר בין הציבור החרדי, הדתי-לאומי והמסורתי.</span></li>
+          <li><span contenteditable="true">בניית נוכחות עקבית סביב דמויות מהימנות – בדגש על הרבנית מורה רקנפר.</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>הדגשים חשובים לתוכן</h3>
+        <ul class="emphasis-list" id="emphasis-list">
+          <li contenteditable="true">התוכן צריך להיות מחבר ולא מטיף.</li>
+          <li contenteditable="true">השפה צריכה להיות רגשית, אנושית ונעימה.</li>
+          <li contenteditable="true">להימנע משפה חרדית סגורה או מסרים שיפוטיים.</li>
+          <li contenteditable="true">להשתמש בתמונות אותנטיות, משפחתיות, מכבדות וצנועות.</li>
+          <li contenteditable="true">לשלב נשים אמיתיות, זוגות, סיפורים מהשטח ותיעוד פעילות.</li>
+          <li contenteditable="true">לעדכן באופן שוטף גם בפעילות יומיומית של העמותה: שיפוץ מקוואות, ביקורי שטח, פעילויות קהילתיות, ערבי נשים, הרצאות ועוד.</li>
+        </ul>
+      </div>
+
+      <div class="info-card" style="grid-column: 1 / -1;">
+        <h3>מבנה תוכן שבועי קבוע</h3>
+        <table class="weekly-structure-table">
+          <thead>
+            <tr>
+              <th>סוג תוכן</th>
+              <th>מטרת התוכן</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td contenteditable="true">סרטון תחילת שבוע</td>
+              <td contenteditable="true">יצירת חיבור רגשי וערכי</td>
+            </tr>
+            <tr>
+              <td contenteditable="true">פוסט סוף שבוע (פרשת השבוע)</td>
+              <td contenteditable="true">חיבור בין תורה, זוגיות וטהרת המשפחה</td>
+            </tr>
+            <tr>
+              <td contenteditable="true">פעילות שוטפת</td>
+              <td contenteditable="true">בניית אמון, אותנטיות וחיבור לפעילות</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION: ANNUAL TABLE ===== -->
+  <section class="section" id="sec-annual">
+    <div class="section-title">טבלת תוכן שנתית</div>
+    <div class="section-subtitle">52 שבועות • לחץ על כל תא לעריכה</div>
+    <div class="annual-table-wrap">
+      <table class="annual-table" id="annual-table">
+        <thead>
+          <tr>
+            <th>שבוע</th>
+            <th>נושא מרכזי</th>
+            <th>פרשת השבוע</th>
+            <th>מסר מרכזי</th>
+            <th>מציג</th>
+            <th>הקישור לטהרת המשפחה</th>
+          </tr>
+        </thead>
+        <tbody id="annual-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECTION: WEEKS ===== -->
+  <section class="section" id="sec-weeks">
+    <div class="section-title">תכנון שבועי מפורט</div>
+    <div class="section-subtitle">כל שבוע כולל סרטון תחילת שבוע + פוסט סוף שבוע • לחץ על כל שבוע לפתיחה</div>
+    <div style="display:flex;gap:10px;margin-bottom:20px;">
+      <button class="btn btn-outline" onclick="expandAll()">פתח הכל</button>
+      <button class="btn btn-outline" onclick="collapseAll()">סגור הכל</button>
+    </div>
+    <div class="weeks-grid" id="weeks-container"></div>
+  </section>
+
+  <!-- ===== SECTION: RECOMMENDATIONS ===== -->
+  <section class="section" id="sec-recs">
+    <div class="section-title">המלצות נוספות</div>
+    <div class="section-subtitle">סוגי תוכן מומלצים ומדדי הצלחה</div>
+    <div class="recs-grid">
+      <div class="info-card">
+        <h3>סוגי תוכן מומלצים</h3>
+        <ul class="content-types-list">
+          <li contenteditable="true">ריילז קצרים (30–60 שניות)</li>
+          <li contenteditable="true">קרוסלות השראה</li>
+          <li contenteditable="true">עדויות אישיות</li>
+          <li contenteditable="true">לייבים</li>
+          <li contenteditable="true">שאלות ותשובות</li>
+          <li contenteditable="true">סרטוני שטח</li>
+          <li contenteditable="true">תוכן נשי ואותנטי</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>KPI מומלצים</h3>
+        <table class="kpi-table">
+          <thead><tr><th>מדד</th><th>מטרה</th></tr></thead>
+          <tbody>
+            <tr><td contenteditable="true">צפיות בריילז</td><td contenteditable="true">הגדלת חשיפה</td></tr>
+            <tr><td contenteditable="true">שיתופים</td><td contenteditable="true">חיבור רגשי</td></tr>
+            <tr><td contenteditable="true">תגובות איכותיות</td><td contenteditable="true">מעורבות</td></tr>
+            <tr><td contenteditable="true">הודעות פרטיות</td><td contenteditable="true">יצירת לידים</td></tr>
+            <tr><td contenteditable="true">תרומות</td><td contenteditable="true">המרה</td></tr>
+            <tr><td contenteditable="true">הרשמות לאירועים</td><td contenteditable="true">בניית קהילה</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-card" style="grid-column: 1 / -1;">
+        <h3>סיכום</h3>
+        <p contenteditable="true" style="font-size:14px;line-height:1.8;">
+          מטרת התוכנית היא ליצור נוכחות עקבית, רגשית ומחברת שמצליחה:
+          לקרב אנשים למסורת בצורה נעימה • לחזק זוגיות וחיי משפחה • לחבר בין מגזרים שונים • להראות את הפעילות האמיתית של העמותה • וליצור קהילה שרוצה להיות שותפה פעילה.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION: MONTHLY ADS ===== -->
+  <section class="section" id="sec-monthly">
+    <div class="section-title">תוכנית פרסום ממומן חודשית</div>
+    <div class="section-subtitle">12 חודשים • מסרים לגיוס תורמים ולידים לעמותה • לחץ על כל שדה לעריכה</div>
+    <div class="monthly-grid" id="monthly-container"></div>
+  </section>
+</main>
+
+<script>
+// ===== DATA =====
+const annualData = [
+  [1,"יציבות בזוגיות","במדבר","כל בית הוא עולם שלם","הרבנית מורה רקנפר","בית יציב נבנה בכבוד וראוי לחיזוק ולקדושה"],
+  [2,"קדושה בעולם מודרני","נשא","קדושת הבית מתחילה","רבנית / מרצה","אנשים מחפשים עומק ותעמוקה בקשר בין בני הזוג"],
+  [3,"מסורת רלוונטית גם היום","בהעלותך","להכניס אור לבית","הרבנית מורה רקנפר","מסורת יכולה להיות נגישה ומחברת לזוגיות"],
+  [4,"סיפור אישי שמשנה חיים","שלח","יציבות בזוגיות נבנית על אמון","אישה מהקהילה","הבסיס לכל קשר הוא אמון"],
+  [5,"זוגיות בתוך עומס","קורח","צריך להשקיע בזוגיות גם בתוך סמוע","מטפלת זוגית","גם בתוך עומס החיים – זוגיות צריכה השקעה"],
+  [6,"כוח הכיסופים","חוקת","ריחוק נכון יוצר חיבור מחדש","הרבנית מורה רקנפר","מים מסמלים טהרה, התחדשות וחיים"],
+  [7,"תיקון בתוך הבית","בלק","מהתיקון נבנה הבית","רבנית","למילים בבית יש כוח לבנות או לפגוע"],
+  [8,"הבית כמקום מרפא","פינחס","הבית צריך להיות המקום הבטוח","זוג אמיתי","שלום אמיתי מתחיל בתוך הבית"],
+  [9,"בניית בית יהודי","מטות-מסעי","נשים בונות דורות","הרבנית מורה רקנפר","החיים הם מסע ובית הוא המקום שחוזרים אליו"],
+  [10,"אהבת חינם מתחילה בבית","דברים","אהבת חינם מתחילה במילים הקטנות","ד\"ר / מרצה","תיקון החברה מתחיל בתיקון הבית"],
+  [11,"אהבה אמיתית","ואתחנן","אהבה אמיתית נבנית מהשקעה","זוג אמיתי","ואהבת – זוהי בחירה יומיומית"],
+  [12,"מאחורי המקווה","עקב","מאחורי כל מקווה יש קהילה שלמה","צוות העמותה","הכרת הטוב מחזקת את הקשר הזוגי"],
+  [13,"חשבון נפש זוגי","ראה","לפני שמשנים העולם – מקשיבים בבית","הרבנית מורה רקנפר","קדושה מתחילה בבחירות הקטנות של היומיום"],
+  [14,"סליחה בזוגיות","שופטים","סליחה אמיתית מחזקת קשר","מטפלת זוגית","כשיש כבוד בבית – יש שלום אמיתי"],
+  [15,"קדושה יוצרת עומק","כי תצא","גבולות יוצרים קשר עמוק יותר","הרבנית מורה רקנפר","זוגיות טובה דורשת השקעה מתמשכת"],
+  [16,"שנה חדשה לבית","כי תבוא","ראש השנה – הזדמנות להתחלה חדשה","הרבנית מורה רקנפר","הכרת הטוב יוצרת בית יותר שמח"],
+  [17,"לתקן את הקרובים","ניצבים","העבודה האמיתית מתחילה בבית","רב","כולנו עומדים יחד – גם בתוך המשפחה"],
+  [18,"טהרה פנימית","וילך","טהרה היא חוויה של התחלה חדשה","רבנית","זוגיות היא הליכה משותפת לאורך הדרך"],
+  [19,"הבית האמיתי","האזינו","לא גודל הבית – אלא האווירה שבתוכו","משפיעה","הקשבה היא הבסיס לשלום בית"],
+  [20,"זמן איכות אמיתי","וזאת הברכה","רגעים קטנים של תשומת לב משנים","משפיעה משפחתית","שלום ואהבה הם הבסיס לברכה בבית"],
+  [21,"התחלה חדשה","בראשית","אפשר לבחור לבנות מחדש את הקשר כל יום","הרבנית מורה רקנפר","הקשר הזוגי הוא היסוד שעליו נבנה הבית"],
+  [22,"יציבות בעולם סוער","נח","הבית צריך להיות המקום הבטוח","רבנית","המשפחה נותנת כוח וביטחון"],
+  [23,"לבנות עתיד לדורות","לך לך","ילדים לומדים זוגיות ממה שרואים בבית","נשים מהקהילה","משפחה חזקה בונה עתיד"],
+  [24,"להכניס אור לבית","וירא","האווירה בבית נוצרת מהמילים והאנרגיה","הרבנית מורה רקנפר","קשר טוב נבנה לאורך זמן"],
+  [25,"האור שבבית","חיי שרה","קשר מתחזק מאיר את כל הבית","משפיעה","גם אחרי ריחוק – אפשר לחזור לקרבה"],
+  [26,"כוח המילים","תולדות","מילים בונות או הורסות בית","זוג אמיתי","הדרך שבה מדברים יוצרת את האווירה בבית"],
+  [27,"כיסופים ורענות","ויצא","מרחק נכון מקרב יותר","הרבנית מורה רקנפר","גם מתוך חושך אפשר לגלות אור"],
+  [28,"בית של אמון","וישלח","אמון נבנה מהקשבה ועקביות","רב","בית של אמון ביטחון"],
+  [29,"להודות על מה שיש","ויחי","הכרת הטוב מחזקת אהבה","אישה מהקהילה","הדברים שמעבירים לדור הבא מתחילים בבית"],
+  [30,"בית שמרגיש בטוח","שמות","מעם שלם מתחיל ממשפחה אחת","הרבנית מורה רקנפר","שלום בית הוא לא מותרות – הוא סיסב לחיים"],
+  [31,"נשים בונות דורות","וארא","נשים מעבירות ערכים, אהבה ומסורת","נשים מהקהילה","גם בתקופות קשות – אפשר להמשיך להאמין"],
+  [32,"לבחור בקשר","בא","אהבה היא בחירה יומיומית","זוג אמיתי","כדי להעביר אור לדור הבא – צריך בית מלא אור"],
+  [33,"שמחה בבית","בשלח","שמחה אמיתית מגיעה מהרגעים הפשוטים","מרצה/משפיע","כשיש שירה בבית – יש כוח לעבור גם תקופות קשות"],
+  [34,"להקשיב באמת","יתרו","הקשבה היא אחת הנתינות הגדולות בזוגיות","מטפלת זוגית","בית טוב נבנה מכבוד והקשבה"],
+  [35,"אחריות הדדית","משפטים","המשפחה לא משאירה אף אחד לבד","רב","אחריות מתחילה בבית"],
+  [36,"לבנות מקום לקדושה","תרומה","קדושה לא נמצאת רק בבית הכנסת","הרבנית מורה רקנפר","כל בית יכול להיות מקום של אור"],
+  [37,"לעצור ולהתחבר","תצווה","חשוב לעצור ולזכור מה באמת חשוב","זוג אמיתי","האור בבית מתחיל מהלב"],
+  [38,"המשפחה היא כוח","כי תשא","לבית שיש בו אהבה יש כוח מיוחד","משפיעה","גם אחרי משברים – אפשר לבנות מחדש"],
+  [39,"לבנות יחד","ויקהל","זוגיות טובה היא עבודת צוות","רבנית","כשעובדים יחד – בונים משהו גדול"],
+  [40,"מילים שמרפאות","פקודי","יש מילים שנותנות כוח","הרבנית מורה רקנפר","הבית האמיתי הוא – בית מלא אהבה"],
+  [41,"קדושה בתוך החיים","ויקרא","קדושה היא לא ניתוק מהחיים","הרבנית מורה רקנפר","גם בדברים הפשוטים של הבית – יש קדושה"],
+  [42,"לשמור על האש","צו","כל קשר צריך תחזוקה","זוג קשיש","תמיד אש – גם בתוך הבית"],
+  [43,"איזון בחיים","שמיני","לאזן בין עבודה, משפחה וזוגיות","משפיעה","איזון נכון יוצר בית בריא"],
+  [44,"כוח הדיבור","תזריע-מצורע","מילים יכולות לקרב ולהרחיק","רב","הדרך שבה מדברים יוצרת את האווירה בבית"],
+  [45,"תהיו קדושים","אחרי מות-קדושים","קדושה מתחילה בדרך שמתייחסים אחד לשני","הרבנית מורה רקנפר","החיים בבית הם הקדושה"],
+  [46,"לבחור בטוב","אמור","בכל יום יש לנו בחירה להוסיף אהבה ואור","זוג אמיתי","בית שיש בו אהבה מאיר לכל סביבתו"],
+  [47,"בית שמחזק את עם ישראל","בהר","כל בית יהודי שמתחזק – מחזק את כל העם","ד\"ר / רב","יציבות אמיתית מתחילה בבית"],
+  [48,"ברכה בבית","בחוקותי","הברכה הגדולה ביותר – בית שיש בו שלום","אישה מהקהילה","כשהבית מלא אהבה – הברכה נכנסת פנימה"],
+  [49,"כל משפחה חשובה","במדבר","כל בית הוא עולם שלם","הרבנית מורה רקנפר","כל בית חשוב. כל ילד נספר"],
+  [50,"להאיר לאחרים","נשא","דרך הבית שלנו – משפיעים על כל סביבתנו","משפיעה","קדושה מתחילה בדברים קטנים"],
+  [51,"קשר שמחזיק שנים","בהעלותך","אמון, כבוד ורצון להמשיך לבחור – שומרים על קשר","זוג קשיש","להכניס אור לבית – מחדש כל יום"],
+  [52,"שנה של בתים בישראל","שלח","כל סיפור כזה הוא עוד אור בעם ישראל","הרבנית מורה רקנפר","קשר חזק מתחיל מאמון"]
+];
+
+const weeksData = [
+  // Weeks 1-24: {type:'detailed', title, parasha, video:{topic,message,emphasis:[],photo}, post:{idea,message,photo}}
+  // Weeks 25-52: {type:'post', title, parasha, openingText, openingPhoto, endMessage, endPhoto}
+  {type:'detailed',title:'יציבות בזוגיות',parasha:'במדבר',
+   video:{topic:'מה הופך זוגיות ליציבה לאורך שנים',
+          message:'זוגיות אמיתית לא מבוססת רק על רגש יחידי – אלא על כבוד, הקשבה, גבולות בריאים ורענות.',
+          emphasis:['צילום חם וביתי','אווירה שקטה וטבעית','לדבר בגובה עיניים','להימנע משפה הלכתית כבדה','לחבר בין טהרת המשפחה לחידוש רגשי בקשר'],
+          photo:'זוג יושב לשיחה נינוחה בבית, כוס תה, שולחן שבת, רגעים קטנים של קשר'},
+   post:{idea:'"כמו שכל אדם נספר במדבר – כך גם כל בית בישראל הוא עולם שלם"',
+         message:'חיזוק הבית היהודי מחזק את כל עם ישראל. כל משפחה היא בעלת ערך.',
+         photo:'משפחה סביב שולחן שבת באווירה חמה ונעימה'}},
+
+  {type:'detailed',title:'קדושה בעולם מודרני',parasha:'נשא',
+   video:{topic:'מדוע דווקא בעולם המודרני אנשים מחפשים עומק',
+          message:'אנשים מחפשים קשר אמיתי, יציבות ועומק – לא רק חיים מהירים וחיצוניים.',
+          emphasis:['סגנון אישי ונעים','לדבר על הצורך האנושי בעומק','להציג את טהרת המשפחה ככלי לבניית קשר עמוק'],
+          photo:'אישה הולכת ברחוב עירוני ואז עוברת לבית חם ומשפחתי'},
+   post:{idea:'"קדושת הבית מתחילה בדברים הקטנים שבין בני הזוג"',
+         message:'קדושה היא לא ריחוק – אלא חיבור ועומק.',
+         photo:'נרות שבת, ידיים אוחזות יחד, צבעים לבנים וזהובים'}},
+
+  {type:'detailed',title:'מסורת רלוונטית גם היום',parasha:'בהעלותך',
+   video:{topic:'נשים צעירות מספרות מדוע התחברו למצווה',
+          message:'מסורת יכולה להיות רלוונטית, מרגשת ומעצימה גם בדורנו.',
+          emphasis:['עדויות קצרות ואותנטיות','נשים בגילאים שונים','מסרים פשוטים לא כבדים'],
+          photo:'ראיונות קצרים עם נשים במקומות נעימים וטבעיים'},
+   post:{idea:'"להדליק אור בבית מתחיל בקשר שבין בני הזוג"',
+         message:'החיבור בבית מאיר על כל המשפחה.',
+         photo:'נרות דולקים, שולחן שבת מואר, אווירה משפחתית'}},
+
+  {type:'detailed',title:'סיפור אישי שמשנה חיים',parasha:'שלח',
+   video:{topic:'עדות אישית על שינוי בזוגיות',
+          message:'לפעמים שינוי קטן בגישה יוצר שינוי גדול בבית.',
+          emphasis:['אותנטיות מלאה','לא ישמע פרסומי','רגשות אמיתיים'],
+          photo:'אישה מספרת את סיפורה בצורה אינטימית ונעימה'},
+   post:{idea:'"הבסיס לכל קשר הוא אמון"',
+         message:'כאשר יש אמון – אפשר לבנות בית יציב.',
+         photo:'זוג הולך יחד בשקיעה בטבע'}},
+
+  {type:'detailed',title:'זוגיות בתוך עומס',parasha:'קורח',
+   video:{topic:'איך שומרים על קשר בתוך לוח זמנים עמוס',
+          message:'גם בתוך עומס החיים חייבים להשקיע בזוגיות.',
+          emphasis:['טיפים פרקטיים','שפה פשוטה','מסרים קצרים'],
+          photo:'יום רגיל של משפחה ואז רגע קטן של חיבור זוגי'},
+   post:{idea:'"גם כשלא מסכימים – אפשר לשמור על שלום בית"',
+         message:'כבוד חשוב יותר מלנצח בוויכוח.',
+         photo:'שולחן שבת שקט ומשפחתי'}},
+
+  {type:'detailed',title:'כוח הכיסופים',parasha:'חוקת',
+   video:{topic:'מדוע כיסופים מחזקים זוגיות',
+          message:'מרחק נכון מאפשר חיבור מחדש והתרגשות.',
+          emphasis:['אווירה רגשית ועדינה','מסר של התחדשות','לא להיכנס להסברים הלכתיים'],
+          photo:'זוג נפגש מחדש אחרי יום ארוך'},
+   post:{idea:'"מים מסמלים טהרה, התחדשות וחיים"',
+         message:'הטהרה היא הזדמנות להתחדשות בתוך החיים.',
+         photo:'מים זורמים, תאורה רכה, צבעים לבנים וכחולים'}},
+
+  {type:'detailed',title:'תיקון בתוך הבית',parasha:'בלק',
+   video:{topic:'היכולת לבקש סליחה',
+          message:'הבית נבנה דווקא מתוך יכולת התיקון.',
+          emphasis:['רגש','פגיעות','שיח אנושי'],
+          photo:'זוג שיחה נינוחה בבית'},
+   post:{idea:'"למילים בבית יש כוח לבנות או לפגוע"',
+         message:'דיבור טוב משנה את האווירה בבית.',
+         photo:'זוג מדבר בקרבה ושקט'}},
+
+  {type:'detailed',title:'הבית כמקום מרפא',parasha:'פינחס',
+   video:{topic:'מדוע הבית צריך להיות המקום הבטוח ביותר',
+          message:'הבית הוא המקום שבו אנחנו צריכים להרגיש אהובים ומכובדים.',
+          emphasis:['חום','ביטחון','משפחתיות'],
+          photo:'משפחה בבית באווירה נעימה'},
+   post:{idea:'"שלום אמיתי מתחיל בתוך הבית"',
+         message:'יציבות זוגית משפיעה על כל המשפחה.',
+         photo:'משפחה סביב שולחן שבת'}},
+
+  {type:'detailed',title:'בניית בית יהודי',parasha:'מטות-מסעי',
+   video:{topic:'העברת מסורת מדור לדור',
+          message:'נשים הן לב הבית היהודי המעביר לדורות הבאים.',
+          emphasis:['בנות ואמהות','מסורת','רגש'],
+          photo:'אמא ובת בהכנות לשבת'},
+   post:{idea:'"החיים הם מסע ובית הוא המקום שחוזרים אליו"',
+         message:'בית יציב נותן כוח לאורך כל הדרך.',
+         photo:'משפחה הולכת יחד על דרך פתוחה'}},
+
+  {type:'detailed',title:'אהבת חינם מתחילה בבית',parasha:'דברים',
+   video:{topic:'איך בונים שיח מכובד בבית',
+          message:'אהבת חינם מתחילה במילים הקטנות של היומיום.',
+          emphasis:['רגש עדין','חיבור לאחדות','מסר מאחד'],
+          photo:'רגעים קטנים של נתינה ועזרה בבית'},
+   post:{idea:'"תיקון החברה מתחיל בתיקון הבית"',
+         message:'משפחה בריאה יוצרת עם בריא.',
+         photo:'משפחה מחבקת באווירה חמה'}},
+
+  {type:'detailed',title:'אהבה אמיתית',parasha:'ואתחנן',
+   video:{topic:'אהבה היא בחירה יומיומית',
+          message:'אהבה אמיתית נבנית מהשקעה, הקשבה והתמדה.',
+          emphasis:['זוגיות אמיתית, לא מושלמת','חיבור עמוק'],
+          photo:'לסירוגין זוג צעיר וזוג מבוגר'},
+   post:{idea:'"ואהבת – זוהי בחירה כבחירה"',
+         message:'אהבה נבנית דרך מעשים קטנים.',
+         photo:'ידיים אוחזות יחד'}},
+
+  {type:'detailed',title:'מאחורי המקווה',parasha:'עקב',
+   video:{topic:'הפעילות האמיתית של העמותה',
+          message:'מאחורי כל מקווה יש נשים, משפחות וקהילה שלמה.',
+          emphasis:['אותנטיות','שטח','אנשים אמיתיים'],
+          photo:'צוות העמותה בשטח, שיפוץ מקווה, נשים מספרות'},
+   post:{idea:'"כשאדם זוכר להודות – הבית מתמלא באור"',
+         message:'הכרת הטוב מחזקת את הקשר הזוגי.',
+         photo:'שולחן שבת מואר וחם'}},
+
+  {type:'detailed',title:'חשבון נפש זוגי',parasha:'ראה',
+   video:{topic:'איך עושים חשבון נפש בתוך הזוגיות',
+          message:'לפני שמנסים לשנות את העולם – צריך ללמוד להקשיב בבית.',
+          emphasis:['מסר רגשי לא ביקורתי','שאלות אישיות לקהל','שיח עדין ומכבד'],
+          photo:'זוג בחשיבה שקטה, אישה כותבת ביומן'},
+   post:{idea:'"כל יום אנחנו בוחרים את הבית שאנחנו בונים"',
+         message:'קדושה מתחילה בבחירות הקטנות של היומיום.',
+         photo:'שולחן שבת נקי ומואר'}},
+
+  {type:'detailed',title:'סליחה בזוגיות',parasha:'שופטים',
+   video:{topic:'היכולת לסלוח באמת',
+          message:'סליחה אמיתית מחזקת קשר ומאפשרת התחלה חדשה.',
+          emphasis:['אותנטיות','פגיעות אנושית','להימנע ממסרים מטיפים'],
+          photo:'זוג משוחח באווירה נינוחה בבית'},
+   post:{idea:'"צדק אמיתי מתחיל בבית"',
+         message:'כשיש כבוד בבית – יש שלום אמיתי.',
+         photo:'נרות שבת ותאורה חמה'}},
+
+  {type:'detailed',title:'קדושה יוצרת עומק',parasha:'כי תצא',
+   video:{topic:'מדוע גבולות יוצרים קשר עמוק יותר',
+          message:'דווקא בעולם ללא גבולות – אנשים מחפשים קשר שיש בו משמעות.',
+          emphasis:['לדבר בשפה מודרנית','לא שפה הלכתית כבדה','להסביר שטהרת המשפחה בונה כיסוף ורעות'],
+          photo:'זוג צעיר באווירה ביתית'},
+   post:{idea:'"לשמח את אשתו – זו אחריות יומיומית"',
+         message:'זוגיות טובה דורשת השקעה מתמשכת.',
+         photo:'זוג מחייך יחד ליד שולחן שבת'}},
+
+  {type:'detailed',title:'שנה חדשה לבית',parasha:'כי תבוא',
+   video:{topic:'איך נרצה שייראה הבית שלנו בשנה הזאת',
+          message:'ראש השנה הוא הזדמנות להתחלה חדשה גם בזוגיות.',
+          emphasis:['מסר מעורר השראה','שאלות לקהל','אווירת חג'],
+          photo:'משפחה בהכנות לחג'},
+   post:{idea:'"הכרת הטוב יוצרת בית יותר שמח"',
+         message:'כשמודים – הקשר מתחזק.',
+         photo:'שולחן חג חגיגי ומשפחתי'}},
+
+  {type:'detailed',title:'לתקן את הקרובים',parasha:'ניצבים',
+   video:{topic:'למה העבודה האמיתית מתחילה בבית',
+          message:'קל להיות טוב כלפי חוץ – האתגר הוא בתוך המשפחה.',
+          emphasis:['מסר אישי','חיבור לתקופת הסליחות','דוגמאות יומיומיות'],
+          photo:'רגעים קטנים של עזרה ונתינה בבית'},
+   post:{idea:'"כולנו עומדים יחד – גם בתוך המשפחה"',
+         message:'אחדות מתחילה בבית.',
+         photo:'משפחה מחבקת'}},
+
+  {type:'detailed',title:'טהרה פנימית',parasha:'וילך',
+   video:{topic:'הצורך להתחדש רגשית',
+          message:'טהרה היא לא רק הלכה – היא חוויה של התחלה חדשה.',
+          emphasis:['אווירה נקיה ושלווה','מסר רוחני עדין','פחות דיבורים – יותר תחושה'],
+          photo:'אישה בהליכה שקטה, מים זורמים'},
+   post:{idea:'"גם במסע החיים – צריך ללכת יחד"',
+         message:'זוגיות היא הליכה משותפת לאורך הדרך.',
+         photo:'זוג הולך יחד בשקיעה'}},
+
+  {type:'detailed',title:'הבית האמיתי',parasha:'האזינו',
+   video:{topic:'מה באמת יוצר בית',
+          message:'לא גודל הבית – אלא האווירה שבתוכו.',
+          emphasis:['משפחתיות','פשטות','חום אנושי'],
+          photo:'ילדים משחקים בבית, שולחן שבת'},
+   post:{idea:'"כדי לבנות קשר – צריך ללמוד להקשיב"',
+         message:'הקשבה היא הבסיס לשלום בית.',
+         photo:'זוג בשיחה נעימה'}},
+
+  {type:'detailed',title:'זמן איכות אמיתי',parasha:'וזאת הברכה',
+   video:{topic:'איך מחזירים זמן זוגי בתוך שגרה',
+          message:'גם רגעים קטנים של תשומת לב משנים את הבית.',
+          emphasis:['מסרים פשוטים','טיפים קטנים','אווירה קלילה'],
+          photo:'זוג שותה קפה יחד'},
+   post:{idea:'"הברכה הגדולה ביותר היא – בית שיש בו אהבה"',
+         message:'שלום ואהבה הם הבסיס לברכה בבית.',
+         photo:'משפחה סביב שולחן חג'}},
+
+  {type:'detailed',title:'התחלה חדשה',parasha:'בראשית',
+   video:{topic:'להתחיל מחדש בתוך קשר קיים',
+          message:'אפשר לבחור לבנות מחדש את הקשר כל יום.',
+          emphasis:['תקווה','אופטימיות','שיח מחזק'],
+          photo:'בית מתעורר בבוקר, זריחה'},
+   post:{idea:'"כל בית גדול מתחיל מהתחלה קטנה"',
+         message:'הקשר הזוגי הוא היסוד שעליו נבנה הבית.',
+         photo:'זוג צעיר בבית חדש'}},
+
+  {type:'detailed',title:'יציבות בעולם סוער',parasha:'נח',
+   video:{topic:'איך יוצרים יציבות רגשית בבית',
+          message:'הבית צריך להיות המקום הבטוח בעולם.',
+          emphasis:['חום רגשי','מסרים מחזקים','קצב שקט'],
+          photo:'משפחה בבית ביום חורפי'},
+   post:{idea:'"גם בעולם סוער – אפשר לבנות תיבה של יציבות"',
+         message:'המשפחה נותנת כוח וביטחון.',
+         photo:'משפחה מחובקת בבית חמים'}},
+
+  {type:'detailed',title:'לבנות עתיד לדורות',parasha:'לך לך',
+   video:{topic:'ההשפעה של הבית על הדור הבא',
+          message:'ילדים לומדים זוגיות ממה שהם רואים בבית.',
+          emphasis:['רגש','משפחתיות','מסורת'],
+          photo:'אמא ובת מדליקות נרות'},
+   post:{idea:'"המסע הגדול מתחיל בבית קטן"',
+         message:'משפחה חזקה בונה עתיד.',
+         photo:'הורים וילדים בטיול'}},
+
+  {type:'detailed',title:'להכניס אור לבית',parasha:'וירא',
+   video:{topic:'איך יוצרים אווירה טובה בבית',
+          message:'האווירה בבית נוצרת מהמילים, היחס והאנרגיה היומיומית.',
+          emphasis:['חום','אור','ביתיות'],
+          photo:'הכנות לשבת בבית'},
+   post:{idea:'"בית יהודי נבנה באהבה, סבלנות ואמונה"',
+         message:'קשר טוב נבנה לאורך זמן.',
+         photo:'נרות ותלחות, שולחן שבת'}},
+
+  // Weeks 25-52: post format
+  {type:'post',title:'האור שבבית',parasha:'חיי שרה',
+   openingText:'לפעמים כל מה שצריך בית, זה עוד קצת אור.\nמילה טובה. חיוך. הקשבה. רגע קטן של דחיב יחד.\nטהרת המשפחה מזכירה לנו לעצור בתוך השגרה, ולחזור לראות אחד את השני מחדש.\nכי כשהקשר מתחזק – כל הבית מואר. ✨',
+   openingPhoto:'תורנ שבת עם תאורה חמה',
+   endMessage:'"גם אחרי ריחוק – אפשר לחזור לקרבה"',endPhoto:'זוג הולך יחד בשקט'},
+
+  {type:'post',title:'כוח המילים',parasha:'תולדות',
+   openingText:'יש מילים שבונות בית. ויש מילים שמרחיקות.\nלפעמים, משפט אחד קטן יכול לשנות את כל האווירה בבית.\nבית בריא מתחיל בדיבור מכבד. ✨',
+   openingPhoto:'שיחה זוגית נעימה ליד שולחן',
+   endMessage:'"הדרך שבה מדברים – יוצרת את האווירה בבית"',endPhoto:'משפחה מחבקת באווירה ביתית'},
+
+  {type:'post',title:'כיסופים ורענות',parasha:'ויצא',
+   openingText:'בעולם שבו הכל זמין ומיידי, יש משהו מיוחד בהמתנה.\nטהרת המשפחה יוצרת מקום לכיסוף, להתרגשות, לחיבור מחדש.\nלפעמים המרחק הנכון – מקרב יותר. ✨',
+   openingPhoto:'זוג נפגש מחדש בחיוך',
+   endMessage:'"גם מתוך חושך אפשר לגלות אור"',endPhoto:'נרות דולקים בחלון'},
+
+  {type:'post',title:'בית של אמון',parasha:'וישלח',
+   openingText:'אמון לא נבנה ביום אחד.\nהוא נבנה מהקשבה, מעקביות, מהידיעה שיש ממי לסמוך.\nזוגיות טובה היא מקום בטוח. ✨',
+   openingPhoto:'ידיים אוחזות יחד',
+   endMessage:'"בית של אמון – בית בטוח"',endPhoto:'משפחה סביב שולחן שבת'},
+
+  {type:'post',title:'להודות על מה שיש',parasha:'ויחי',
+   openingText:'לפעמים בתוך השגרה אנחנו שוכחים לעצור ולהגיד תודה.\nתודה על הבית. תודה על המשפחה. תודה על האדם שלצדנו.\nהכרת הטוב מחזקת אהבה. ✨',
+   openingPhoto:'שולחן שבת מואר',
+   endMessage:'"הדברים שמעבירים לדור הבא – מתחילים בבית"',endPhoto:'סבא וסבתא עם נכדים'},
+
+  {type:'post',title:'בית שמרגיש בטוח',parasha:'שמות',
+   openingText:'הבית צריך להיות המקום שאפשר לנשום בו.\nמקום שיש בו אהבה, שקט, כבוד.\nשלום בית הוא לא מותרות – הוא סיסב לחיים. ✨',
+   openingPhoto:'ילדים משחקים בבית בשקט',
+   endMessage:'"ממשפחה אחת מתחיל עם שלם"',endPhoto:'אמא מחזיקה תינוק'},
+
+  {type:'post',title:'נשים בונות דורות',parasha:'וארא',
+   openingText:'מדור לדור – נשים מעבירות ערכים, אהבה ומסורת.\nכל בית יהודי מתחיל בלב של אישה. ✨',
+   openingPhoto:'אמא ובת מדליקות נרות',
+   endMessage:'"גם בתקופות קשות – אפשר להמשיך להאמין"',endPhoto:'אור קטן בתוך בית חושך'},
+
+  {type:'post',title:'לבחור בקשר',parasha:'בא',
+   openingText:'אהבה היא לא רק רגש. היא בחירה יומיומית.\nלבחור להקשיב. לבחור לכבד. לבחור להשקיע.\nמזוגיות טובות נבנית ממבחירות קטנות. ✨',
+   openingPhoto:'זוג מחייך יחד במטבח',
+   endMessage:'"כדי להעביר אור לדור הבא – צריך בית מלא אור"',endPhoto:'משפחה סביב נרות שבת'},
+
+  {type:'post',title:'שמחה בבית',parasha:'בשלח',
+   openingText:'שמחה אמיתית לא תמיד מגיעה מדברים גדולים.\nלפעמים היא מתחילה ברגעים הפשוטים ביותר.\nבית שיש בו שמחה – בית שיש בו חיים. ✨',
+   openingPhoto:'משפחה רוקדת יחד בבית',
+   endMessage:'"כשיש שירה בבית – יש כוח לעבור גם תקופות קשות"',endPhoto:'שולחן שבת שמח'},
+
+  {type:'post',title:'להקשיב באמת',parasha:'יתרו',
+   openingText:'לפעמים האדם שמולנו לא צריך פתרון. רק שמישהו יקשיב לו באמת.\nהקשבה היא אחת הנתינות הגדולות ביותר בזוגיות. ✨',
+   openingPhoto:'זוג מדבר בשקט',
+   endMessage:'"בית טוב נבנה מכבוד והקשבה"',endPhoto:'שיחה זוגית נעימה'},
+
+  {type:'post',title:'אחריות הדדית',parasha:'משפטים',
+   openingText:'המשפחה לא משאירה אף אחד לבד.\nכשאחד נחלש – השני מחזק.\nזוגיות היא שותפות. ✨',
+   openingPhoto:'בני זוג עוזרים אחד לשני',
+   endMessage:'"אחריות מתחילה בבית"',endPhoto:'משפחה מסביב שולחן ערב'},
+
+  {type:'post',title:'לבנות מקום לקדושה',parasha:'תרומה',
+   openingText:'קדושה לא נמצאת רק בבית הכנסת.\nהיא נמצאת גם בדרך שמתייחסים אחד לשני.\nבית שיש בו כבוד – הוא מקום של קדושה. ✨',
+   openingPhoto:'תאורת שבת ונרות',
+   endMessage:'"כל בית יכול להיות מקום של אור"',endPhoto:'בית מואר וחם'},
+
+  {type:'post',title:'לעצור ולהתחבר',parasha:'תצווה',
+   openingText:'בתוך הריצה, חשוב לעצור ולזכור מה באמת חשוב.\nקשר טוב צריך זמן ונוכחות.\nגם רגע קטן יחד – משנה. ✨',
+   openingPhoto:'זוג שותה קפה יחד',
+   endMessage:'"האור בבית מתחיל מהלב"',endPhoto:'אור נרות חם'},
+
+  {type:'post',title:'המשפחה היא כוח',parasha:'כי תשא',
+   openingText:'לבית שיש בו אהבה יש כוח מיוחד.\nכוח להתמודד עם הכל.\nמשפחה חזקה – כוח לכל החיים. ✨',
+   openingPhoto:'משפחה בטיול בטבע',
+   endMessage:'"גם אחרי משברים – אפשר לבנות מחדש"',endPhoto:'ידיים אוחזות יחד'},
+
+  {type:'post',title:'לבנות יחד',parasha:'ויקהל',
+   openingText:'לא בונים בית לבד.\nזוגיות טובה היא עבודת צוות.\nכשעובדים יחד – בונים משהו גדול. ✨',
+   openingPhoto:'בני זוג מכינים שבת יחד',
+   endMessage:'"כשעובדים יחד – בונים משהו גדול"',endPhoto:'משפחה סביב שולחן שבת'},
+
+  {type:'post',title:'מילים שמרפאות',parasha:'פקודי',
+   openingText:'יש מילים שנותנות כוח.\nמילה טובה אחת יכולה לשנות יום שלם.\nנבחר במילים שמרפאות. ✨',
+   openingPhoto:'חיבוק זוגי חם',
+   endMessage:'"הבית האמיתי הוא – בית מלא אהבה"',endPhoto:'בית מואר בלילת שבת'},
+
+  {type:'post',title:'קדושה בתוך החיים',parasha:'ויקרא',
+   openingText:'קדושה לא ניתוק מהחיים.\nהיא דרך לחיות אותם יותר עמוק.\nטהרת המשפחה מחברת בין הנשמה לחיים. ✨',
+   openingPhoto:'אישה מדליקה נרות',
+   endMessage:'"גם בדברים הפשוטים של הבית – יש קדושה"',endPhoto:'שולחן שבת חם ופשוט'},
+
+  {type:'post',title:'לשמור על האש',parasha:'צו',
+   openingText:'כל קשר צריך תחזוקה.\nאהבה שמרנית דרך השקעה יומיומית.\nלשמור על האש – גם כאשר מרגישים עייפים. ✨',
+   openingPhoto:'זוג מבשל יחד',
+   endMessage:'"תמיד אש – גם בתוך הבית"',endPhoto:'נרות דולקים בלילת שבת'},
+
+  {type:'post',title:'איזון בחיים',parasha:'שמיני',
+   openingText:'לאזן בין עבודה, משפחה וזוגיות – זה האתגר של כולנו.\nאסור לשכוח להשקיע בבית. ✨',
+   openingPhoto:'משפחה בארוחת ערב',
+   endMessage:'"איזון נכון יוצר בית בריא"',endPhoto:'בית שקט וחם'},
+
+  {type:'post',title:'כוח הדיבור',parasha:'תזריע-מצורע',
+   openingText:'מילים יכולות לקרב ולהרחיק.\nהדרך שבה מדברים – יוצרת אווירה.\nנבחר לדבר טוב. ✨',
+   openingPhoto:'זוג מחייך בשיחה',
+   endMessage:'"הדרך שבה מדברים יוצרת את האווירה בבית"',endPhoto:'שיחה זוגית נעימה'},
+
+  {type:'post',title:'תהיו קדושים',parasha:'אחרי מות-קדושים',
+   openingText:'קדושה מתחילה בדרך שמתייחסים אחד לשני.\nבאהבה, בצניעות, בכבוד.\nבונים בית יהודי. ✨',
+   openingPhoto:'משפחה בשבת',
+   endMessage:'"החיים בבית הם הקדושה"',endPhoto:'משפחה ונרות שבת'},
+
+  {type:'post',title:'לבחור בטוב',parasha:'אמור',
+   openingText:'בכל יום יש לנו בחירה.\nלהוסיף אהבה. לוסיף אור. לוסיף שלום.\nהדברים הקטנים משנים חיים. ✨',
+   openingPhoto:'חיוך קטן בין בני זוג',
+   endMessage:'"בית שיש בו אהבה מאיר לכל סביבתו"',endPhoto:'בית מואר בערב שבת'},
+
+  {type:'post',title:'בית שמחזק את עם ישראל',parasha:'בהר',
+   openingText:'כל בית יהודי שמתחזק – מחזק את כל העם.\nמשפחות חזקות יוצרות חברה בריאה. ✨',
+   openingPhoto:'משפחה ישראלית מחייכת',
+   endMessage:'"יציבות אמיתית מתחילה בבית"',endPhoto:'משפחה בטבע'},
+
+  {type:'post',title:'ברכה בבית',parasha:'בחוקותי',
+   openingText:'לפעמים הברכה הגדולה ביותר היא פשוט – בית שיש בו שלום.\nשלום בית הוא מתנה.\nאהבה מכניסה ברכה. ✨',
+   openingPhoto:'שולחן שבת חגיגי',
+   endMessage:'"כשהבית מלא אהבה – הברכה נכנסת פנימה"',endPhoto:'אווירת שבת חמה'},
+
+  {type:'post',title:'כל משפחה חשובה',parasha:'במדבר',
+   openingText:'אין בית "רגיל". כל משפחה היא עולם שלם.\nכל חיזוק קטן בבית – משנה חיים. ✨',
+   openingPhoto:'משפחות מגוונות בישראל',
+   endMessage:'"כל בית חשוב. כל ילד נספר"',endPhoto:'משפחה סביב שולחן שבת'},
+
+  {type:'post',title:'להאיר לאחרים',parasha:'נשא',
+   openingText:'לפעמים דרך הבית שלנו – אנחנו משפיעים על כל סביבתנו.\nאור קטן בבית יכול להאיר עולם שלם. ✨',
+   openingPhoto:'חלון בית מואר בלילה',
+   endMessage:'"קדושה מתחילה בדברים קטנים"',endPhoto:'תאורה עדינה ונרות שבת'},
+
+  {type:'post',title:'קשר שמחזיק שנים',parasha:'בהעלותך',
+   openingText:'מה מחזיק זוגות לאורך שנים?\nלא שלמות. אמון, כבוד, ורצון להמשיך לבחור אחד בשני.\nאהבה אמיתית נבנית לאורך זמן. ✨',
+   openingPhoto:'זוג מבוגר אוחז ידיים',
+   endMessage:'"להכניס אור לבית – מחדש כל יום"',endPhoto:'שולחן שבת חם באור נרות'},
+
+  {type:'post',title:'שנה של בתים בישראל',parasha:'שלח',
+   openingText:'בשנה האחרונה פגשנו נשים, משפחות וזוגות שבחרו לחזק את הבית שלהם.\nכל סיפור כזה הוא עוד אור בעם ישראל.\nתודה לכל מי שבוחר להיות שותף לבניית בתים בישראל. ✨',
+   openingPhoto:'קולאז׳ תמונות משפחות ופעילות העמותה',
+   endMessage:'"קשר חזק מתחיל מאמון"',endPhoto:'זוג ומשפחה בטבע'}
+];
+
+// ===== WEEKLY FB POST COPY =====
+const weeklyPostCopy = [
+  // 1-24: Shabbat posts
+  `כמו שכל אדם נספר במדבר – כך גם כל בית בישראל הוא עולם שלם.\n\nיציבות בזוגיות לא נבנית ביום אחד. היא נבנית מהכבוד הקטן, מההקשבה, מהבחירה לחזור ולהתחבר שוב ושוב.\n\nטהרת המשפחה היא ההזמנה לרגע כזה – לעצור, להתחדש, ולבנות קשר שמחזיק לאורך שנים. ✨\n\n❤️ שבת שלום\n#זוגיות #ביתיהודי #טהרתהמשפחה #שלוםבית`,
+  `בעולם רועש ומהיר – יותר ויותר אנשים מחפשים משהו אמיתי.\nקשר עמוק. משמעות. תחושת בית.\n\nקדושה היא לא ריחוק – היא חיבור. ודווקא טהרת המשפחה נותנת לנו מקום לראות את בן הזוג מחדש, שוב ושוב.\n\n❤️ שבת שלום\n#קדושה #זוגיות #ביתיהודי #טהרתהמשפחה`,
+  `להדליק אור בבית – זה לא רק מנהג עתיק.\nזה הזמנה לחבר, לחמם, להזכיר אחד לשני: אנחנו בונים כאן משהו.\n\nמסורת טהרת המשפחה מאפשרת לנו לחיות יחסים עם עומק, עם קסם, עם התחדשות – גם בעולם המודרני. ✨\n\n❤️ שבת שלום\n#מסורת #זוגיות #טהרתהמשפחה #ביתיהודי`,
+  `הבסיס לכל קשר טוב הוא אמון.\nכשיש אמון – אפשר לבנות. לסלוח. לחזור. להתחדש.\n\nהבית הוא מקום שנבנה יום יום, בחירה אחרי בחירה. לא שלמות – אלא אמת. ✨\n\n❤️ שבת שלום\n#אמון #זוגיות #ביתיהודי #טהרתהמשפחה`,
+  `גם כשלא מסכימים – אפשר לשמור על כבוד.\nגם בתוך עומס החיים – אפשר להשקיע בקשר.\n\nכי כבוד חשוב יותר מלנצח. ואהבה חשובה יותר מלהיות צודק. ✨\n\n❤️ שבת שלום\n#שלוםבית #זוגיות #טהרתהמשפחה #ביתיהודי`,
+  `מים מסמלים טהרה. התחדשות. חיים.\nודווקא המרחק הנכון – מאפשר חיבור מחדש. כיסוף. התרגשות.\n\nזוהי הגדולה של טהרת המשפחה – ליצור מרחב שבו שני אנשים ממשיכים לבחור זה בזו, שוב ושוב. ✨\n\n❤️ שבת שלום\n#טהרה #כיסופים #זוגיות #טהרתהמשפחה`,
+  `למילים שמדברים בבית יש כוח עצום.\nהן יכולות לבנות. הן יכולות לפגוע. הן יכולות לרפא.\n\nהבית נבנה לא רק מלבנים – אלא מהמילים, המבטים, והמגעים הקטנים שבחרנו בהם היום. ✨\n\n❤️ שבת שלום\n#מילים #שלוםבית #זוגיות #טהרתהמשפחה`,
+  `הבית צריך להיות המקום שאפשר לנשום בו.\nמקום שרגישים בו אהובים. בטוחים. מכובדים.\n\nשלום אמיתי מתחיל בתוך הבית – ומשפיע על כל המשפחה כולה. ✨\n\n❤️ שבת שלום\n#שלוםבית #ביתיהודי #זוגיות #טהרתהמשפחה`,
+  `החיים הם מסע. ובית הוא המקום שתמיד חוזרים אליו.\n\nכל בית יהודי שנבנה – בונה קצת מהעתיד של עם ישראל. נשים הן לב הבית, הן המעבירות מסורת מדור לדור. ✨\n\n❤️ שבת שלום\n#ביתיהודי #מסורת #זוגיות #טהרתהמשפחה`,
+  `תיקון החברה מתחיל בתיקון הבית.\nאהבת חינם לא מתחילה ברחוב – היא מתחילה בסלון. בשולחן. בבחירה לדבר טוב.\n\nכשיש שלום בבית – יש אור לכל הסביבה. ✨\n\n❤️ שבת שלום\n#אהבתחינם #שלוםבית #ביתיהודי #טהרתהמשפחה`,
+  `ואהבת – זוהי בחירה יומיומית.\n\nאהבה אמיתית לא תמיד נראית כמו בסרטים. היא נראית כמו הקשבה, כמו סבלנות, כמו לבחור שוב ביום שקשה.\n\nמזוגיות חזקות ומשפחות חמות – מתחיל עם ישראל מתחזק. ✨\n\n❤️ שבת שלום\n#אהבה #זוגיות #ביתיהודי #טהרתהמשפחה`,
+  `מאחורי כל מקווה – יש קהילה. יש נשים. יש משפחות.\n\nכשאדם זוכר להודות – על הבית, על בן הזוג, על הקשר שיש לו – הבית מתמלא באור.\n\nהכרת הטוב היא אחד הדברים שמחזקים הכי הרבה. ✨\n\n❤️ שבת שלום\n#הכרתהטוב #קהילה #זוגיות #טהרתהמשפחה`,
+  `כל יום אנחנו בוחרים – איזה בית אנחנו בונים.\n\nבבחירות הקטנות: בדרך שמדברים, בדרך שמקשיבים, בבחירה לשים לב.\n\nקדושה מתחילה לא רק בבית הכנסת – היא מתחילה בבית. ✨\n\n❤️ שבת שלום\n#קדושה #זוגיות #ביתיהודי #טהרתהמשפחה`,
+  `צדק אמיתי מתחיל בבית.\nסליחה אמיתית – לא כי מגיע, אלא כי אוהבים.\n\nכשיש כבוד בבית – יש שלום. ושלום הוא הדבר שממנו הכל מתחיל. ✨\n\n❤️ שבת שלום\n#סליחה #שלוםבית #זוגיות #טהרתהמשפחה`,
+  `בעולם ללא גבולות – אנשים מחפשים דווקא קשר שיש בו משמעות.\n\nטהרת המשפחה נותנת לנו גבולות שמשחררים. מרחק שמקרב. קדושה שיוצרת עומק.\n\nזוגיות טובה דורשת השקעה מתמשכת. ✨\n\n❤️ שבת שלום\n#קדושה #עומק #זוגיות #טהרתהמשפחה`,
+  `שנה חדשה מתקרבת.\n\nמה נרצה שייראה הבית שלנו בשנה הזאת?\nאיזה בית נבנה? איזה קשר נטפח?\n\nהכרת הטוב מתחילה בבית. מהאדם שלצדנו. ✨\n\nשנה טובה ומתוקה לכולם ❤️\n#ראשהשנה #שנהטובה #ביתיהודי #טהרתהמשפחה`,
+  `כולנו עומדים לפני שנה חדשה.\n\nהעבודה האמיתית מתחילה בבית – עם מי שאנחנו הכי קרובים אליהם. כי קל להיות טוב כלפי חוץ. האתגר הוא בפנים.\n\nגמר חתימה טובה לכולם ❤️\n#תשובה #שלוםבית #ביתיהודי #טהרתהמשפחה`,
+  `טהרה היא לא רק הלכה.\nהיא חוויה של התחדשות. של עמוד נקי אחרי שהכל קשה.\n\nגם במסע החיים – אי אפשר לבד. צריך ללכת יחד. ✨\n\n❤️ שבת שלום\n#טהרה #התחדשות #זוגיות #טהרתהמשפחה`,
+  `מה יוצר בית?\nלא הגודל. לא הרהיטים.\n\nאלא האווירה. הדרך שמקשיבים. הרגע שבו מישהו מרגיש נראה.\n\nהקשבה היא הבסיס לשלום בית. ✨\n\n❤️ שבת שלום\n#ביתיהודי #הקשבה #זוגיות #טהרתהמשפחה`,
+  `הברכה הגדולה ביותר היא בית שיש בו אהבה.\nלא צריך הרבה. צריך נוכחות. זמן. הקשבה.\n\nשלום ואהבה – הם הבסיס לכל ברכה אמיתית. ✨\n\n❤️ חג שמח ושבת שלום\n#זמןאיכות #ביתיהודי #טהרתהמשפחה`,
+  `כל בית גדול מתחיל מהתחלה קטנה.\n\nבראשית – גם בזוגיות. אפשר לבחור להתחיל מחדש, בכל יום. לא צריך אירוע גדול – מספיקה החלטה קטנה.\n\nהקשר הזוגי הוא היסוד שעליו כל השאר נבנה. ✨\n\n❤️ שבת שלום\n#התחלהחדשה #בראשית #זוגיות #טהרתהמשפחה`,
+  `גם בעולם סוער – אפשר לבנות תיבה.\nמקום שיש בו שקט. ביטחון. אהבה.\n\nהמשפחה היא התיבה שלנו. בתוכה – שורדים. גדלים. מתחזקים. ✨\n\n❤️ שבת שלום\n#יציבות #ביתיהודי #זוגיות #טהרתהמשפחה`,
+  `המסע הגדול מתחיל בבית קטן.\n\nילדים לומדים זוגיות ממה שהם רואים אצלנו. האופן שמדברים. האופן שסולחים. האופן שאוהבים.\n\nמשפחה חזקה בונה עתיד – לכולנו. ✨\n\n❤️ שבת שלום\n#דורות #מסורת #ביתיהודי #טהרתהמשפחה`,
+  `בית יהודי נבנה באהבה, סבלנות ואמונה.\n\nהאווירה שיוצרים בבית – היא הדבר שהילדים יזכרו. ריח השבת. המילה הטובה. החיבוק בלי סיבה.\n\nקשר טוב נבנה לאורך זמן. ✨\n\n❤️ שבת שלום\n#אורלבית #ביתיהודי #זוגיות #טהרתהמשפחה`,
+  // 25-52: Shabbat end-of-week posts
+  `גם אחרי ריחוק – אפשר לחזור לקרבה. 💙\nהקשר שנבנה על אמון ואהבה – תמיד מוצא את דרכו חזרה.\nטהרת המשפחה יוצרת את המרחב לחזור ולהתחבר, שוב ושוב. ✨\n\n❤️ שבת שלום\n#חייֿשרה #זוגיות #טהרתהמשפחה`,
+  `הדרך שמדברים בבית – יוצרת את כל האווירה.\nמילה טובה. מילה מרפאת. מילה שמחברת.\n\nגם בתקופות מורכבות – אפשר לשמור על קשר. ✨\n\n❤️ שבת שלום\n#תולדות #ביתיהודי #טהרתהמשפחה`,
+  `גם מתוך חושך – אפשר לגלות אור. 💫\nכמו יעקב שיצא לדרך ובנה בית גדול – הכיסוף הוא כוח, לא חולשה.\n\nהמרחק הנכון מקרב יותר. ✨\n\n❤️ שבת שלום\n#ויצא #כיסופים #טהרתהמשפחה`,
+  `בית של אמון הוא בית בטוח.\nאפשר לחזור. לסלוח. לבנות מחדש – כי יש בסיס.\n\nאמון לא נבנה ביום אחד, אבל כשיש אותו – הכל אפשרי. ✨\n\n❤️ שבת שלום\n#וישלח #אמון #ביתיהודי #טהרתהמשפחה`,
+  `הדברים שמעבירים לדור הבא – מתחילים בבית.\nאהבה, כבוד, מסורת. אלה לא מילים – אלה מתנות.\n\nמה ניתן לילדים שלנו? ✨\n\n❤️ שבת שלום\n#ויחי #דורות #ביתיהודי #טהרתהמשפחה`,
+  `ממשפחה אחת – מתחיל עם שלם.\n\nשלום בית הוא לא מותרות – הוא סיסב לחיים. למתנה הכי גדולה שאפשר לתת לילדים. ✨\n\n❤️ שבת שלום\n#שמות #שלוםבית #ביתיהודי #טהרתהמשפחה`,
+  `גם בתקופות קשות – אפשר להמשיך להאמין.\n\nנשים שמאמינות – בונות דורות. נשים שמחזיקות – מחזיקות את הכל. ✨\n\n❤️ שבת שלום\n#וארא #אמונה #ביתיהודי #טהרתהמשפחה`,
+  `כדי להעביר אור לדור הבא – צריך בית מלא אור.\n\nהיום אנחנו בונים את מה שהילדים ורשו. כל בחירה קטנה שלנו – היא מורשת. ✨\n\n❤️ שבת שלום\n#בא #דורות #ביתיהודי #טהרתהמשפחה`,
+  `כשיש שירה בבית – יש כוח לעבור גם תקופות קשות.\n\nשמחה אמיתית לא מגיעה מדברים גדולים – היא מגיעה מהרגעים הפשוטים. ✨\n\n❤️ שבת שלום\n#בשלח #שמחה #ביתיהודי #טהרתהמשפחה`,
+  `בית טוב נבנה מכבוד והקשבה.\n\nלפני שבנה משה את המשכן – בנה יתרו מערכת של הקשבה. גם הבית שלנו נבנה ככה. ✨\n\n❤️ שבת שלום\n#יתרו #הקשבה #ביתיהודי #טהרתהמשפחה`,
+  `אחריות מתחילה בבית.\nלא לעזוב אחד לבד. לדאוג אחד לשנייה. לזכור שזוגיות היא שותפות מלאה. ✨\n\n❤️ שבת שלום\n#משפטים #אחריות #ביתיהודי #טהרתהמשפחה`,
+  `כל בית יכול להיות מקום של אור.\n\nלא צריך להיות מושלם – צריך לרצות. צריך לבחור. צריך להשקיע. ✨\n\n❤️ שבת שלום\n#תרומה #קדושה #ביתיהודי #טהרתהמשפחה`,
+  `האור בבית מתחיל מהלב.\n\nכשמחליטים לעצור לרגע, ולשים לב – הכל משתנה. לא צריך זמן רב. צריך נוכחות. ✨\n\n❤️ שבת שלום\n#תצווה #אורלבית #זוגיות #טהרתהמשפחה`,
+  `גם אחרי משברים – אפשר לבנות מחדש.\n\nמשפחה חזקה לא מתנהלת בלי קשיים. היא מתנהלת עם יכולת לקום אחריהם. ✨\n\n❤️ שבת שלום\n#כיתשא #חוסן #ביתיהודי #טהרתהמשפחה`,
+  `כשעובדים יחד – בונים משהו גדול.\n\nויקהל – משה קיבץ את כולם. גם הבית שלנו נבנה מהעבודה המשותפת של שניים. ✨\n\n❤️ שבת שלום\n#ויקהל #שותפות #ביתיהודי #טהרתהמשפחה`,
+  `הבית האמיתי הוא – בית מלא אהבה.\n\nלא גודלו. לא ריהוטו. אלא האווירה שיוצרים בו ביחד. ✨\n\n❤️ שבת שלום\n#פקודי #אהבה #ביתיהודי #טהרתהמשפחה`,
+  `גם בדברים הפשוטים של הבית – יש קדושה.\n\nבאופן שמכינים שבת. בדרך שאומרים שלום. בחיבוק שנותנים כשחוזרים הביתה. ✨\n\n❤️ שבת שלום\n#ויקרא #קדושה #ביתיהודי #טהרתהמשפחה`,
+  `תמיד אש – גם בתוך הבית.\n\nאהבה שנשמרת דרך השקעה יומיומית – שורדת. גדלה. מתחזקת. ✨\n\n❤️ שבת שלום\n#צו #אהבה #זוגיות #טהרתהמשפחה`,
+  `איזון נכון יוצר בית בריא.\n\nלאזן בין עבודה, ילדים וזוגיות – זה האתגר של כולנו. אבל הבית לא יכול לחכות. ✨\n\n❤️ שבת שלום\n#שמיני #ניהולזמן #ביתיהודי #טהרתהמשפחה`,
+  `הדרך שמדברים בבית – יוצרת את כל האווירה.\n\nנבחר בדיבור שמחבר. בדיבור שמרפא. בדיבור שבונה בית. ✨\n\n❤️ שבת שלום\n#תזריעמצורע #דיבור #שלוםבית #טהרתהמשפחה`,
+  `החיים בבית הם הקדושה.\n\nבאופן שאוהבים. בדרך שמתייחסים. בבחירה לחיות חיים של משמעות – יחד. ✨\n\n❤️ שבת שלום\n#קדושים #קדושה #ביתיהודי #טהרתהמשפחה`,
+  `בית שיש בו אהבה – מאיר לכל סביבתו.\n\nבכל יום יש לנו בחירה: להוסיף אור, שמחה, קרבה. הדברים הקטנים משנים חיים. ✨\n\n❤️ שבת שלום\n#אמור #בחירה #ביתיהודי #טהרתהמשפחה`,
+  `יציבות אמיתית מתחילה בבית.\n\nכל בית יהודי שמתחזק – מחזק את כל עם ישראל. ביחד אנחנו חזקים. ✨\n\n❤️ שבת שלום\n#בהר #יציבות #ביתיהודי #טהרתהמשפחה`,
+  `כשהבית מלא אהבה – הברכה נכנסת פנימה.\n\nשלום בית הוא לא מותרות – הוא הכי גדולה שאפשר לתת לעצמנו ולילדינו. ✨\n\n❤️ שבת שלום\n#בחוקותי #ברכה #שלוםבית #טהרתהמשפחה`,
+  `כל בית חשוב. כל ילד נספר.\n\nאין בית "רגיל" – כל בית הוא עולם שלם. כל ילד שגדל בבית של אהבה – מאיר לעולם. ✨\n\n❤️ שבת שלום\n#במדבר #ביתיהודי #כלמשפחה #טהרתהמשפחה`,
+  `קדושה מתחילה בדברים קטנים.\n\nבית קטן שמלא אהבה – מאיר יותר מארמון ריק. ✨\n\n❤️ שבת שלום\n#נשא #קדושה #ביתיהודי #טהרתהמשפחה`,
+  `להכניס אור לבית – מחדש, כל יום.\n\nגם קשר ותיק שמחזיק שנים – נבנה מחדש בכל בוקר. בכל חיוך. בכל "איך היה לך היום". ✨\n\n❤️ שבת שלום\n#בהעלותך #אורלבית #זוגיות #טהרתהמשפחה`,
+  `קשר חזק מתחיל מאמון.\n\nשנה שלמה של בתים שנבנו, של זוגות שהתחזקו, של קהילות שהתחברו. 💜\nתודה לכולם שהיו שותפים.\n\n❤️ שבת שלום\n#שלח #שנהשלביתים #טהרתהמשפחה`
+];
+
+// ===== MONTHLY PAID ADS DATA =====
+const monthlyAdsData = [
+  {month:'יוני 2026', emoji:'🌿', weeks:'1–4', season:'קיץ • לאחר שבועות',
+   theme:'יציבות, קדושה ומסורת בעולם מודרני',
+   audience:'זוגות יהודים 25–45, מסורתיים-דתיים, גרים בערים גדולות',
+   targetGoal:'תרומה לפרויקטי מקוואות + שיתוף בפעילות',
+   adCopy:`כל זוג שמחזק את הבית שלו – מחזק את עם ישראל. 🏡\n\nהמרכז הארצי לטהרת המשפחה פועל בכל רחבי הארץ – שיפוץ מקוואות, ליווי זוגות, חיזוק קהילות.\n\nהיה שותף. תרומתך בונה בתים. ❤️\n\n👉 לתרומה – לחץ כאן`,
+   cta:'לתרומה – לחץ כאן', format:'וידאו עדות + תמונת מקווה + כפתור תרומה',
+   budget:'₪1,500–₪2,500'},
+  {month:'יולי 2026', emoji:'🕯️', weeks:'5–8', season:'בין המצרים • תשעה באב',
+   theme:'כוח הקשר, אהבת חינם, שלום בית',
+   audience:'יהודים 28–55 שמחפשים חיבור ושייכות ציבורית-לאומית',
+   targetGoal:'לידים לתרומה + רישום לניוזלטר',
+   adCopy:`הגלות החלה בשנאת חינם. הגאולה תתחיל באהבת חינם. 💛\n\nואהבת חינם מתחילה – בבית.\n\nאנחנו מחזקים בתים יהודיים ברחבי ישראל. בכל תרומה – עוד בית מתחזק. ✨\n\n👉 לתרומה לבניית בית יהודי חזק`,
+   cta:'לתרומה – לחץ כאן', format:'גרפיקה עם ציטוט + כרטיסיית תרומה',
+   budget:'₪1,200–₪2,000'},
+  {month:'אוגוסט 2026', emoji:'🌅', weeks:'9–12', season:'ראשית אלול • חזרה לשגרה',
+   theme:'בניית בית יהודי, מאחורי המקווה, עדויות אמיתיות',
+   audience:'הורים צעירים 28–42, מסורתיים, מתגוררים בפריפריה',
+   targetGoal:'תרומה ספציפית לפרויקט מקווה + הרשמה לפעילות',
+   adCopy:`מאחורי כל מקווה – יש ילדים שגדלים בבית יהודי חזק. 👶\n\nהמרכז הארצי לטהרת המשפחה שיפץ עשרות מקוואות ברחבי הארץ.\nכל תרומה בונה בית. כל בית בונה עם.\n\n👉 תרום עכשיו לפרויקט המקווה`,
+   cta:'לתרומה לפרויקט המקווה', format:'וידאו תיעוד מהשטח + סיפור אישי',
+   budget:'₪2,000–₪3,000'},
+  {month:'ספטמבר 2026', emoji:'🍎', weeks:'13–17', season:'ראש השנה • יום כיפור • עונת תרומות',
+   theme:'חשבון נפש, סליחה, שנה חדשה לבית',
+   audience:'כלל הציבור היהודי 25–65 – פיק עונת תרומות',
+   targetGoal:'תרומות גדולות + נדבנים חדשים',
+   adCopy:`בשנה החדשה – מה נבחר לבנות? 🍎\n\nכל תרומה לטהרת המשפחה היא השקעה בבית יהודי. בזוג. בילדים. בעתיד.\n\nבשנת תשפ"ז – בוא ניפגש בצד שבונה. ✨\n\nגמר חתימה טובה ❤️\n👉 לתרומה לזכר / לעילוי נשמה / לבניית בית`,
+   cta:'לתרומה לשנה טובה', format:'וידאו הרבנית מורה רקנפר + גרפיקת ראש השנה',
+   budget:'₪4,000–₪7,000'},
+  {month:'אוקטובר 2026', emoji:'🌿', weeks:'18–22', season:'סוכות • שמחת תורה • חזרה לשגרה',
+   theme:'התחדשות, הבית האמיתי, יציבות אחרי החגים',
+   audience:'משפחות החוזרות לשגרה 28–50',
+   targetGoal:'גיוס תורמים חוזרים + לידים לפרויקטים קהילתיים',
+   adCopy:`אחרי ימים גדולים – חוזרים לבנות. 🏡\n\nהמרכז הארצי לטהרת המשפחה פועל כל השנה – גם כשהחגים נגמרים.\n\nתהיה שותף לחיזוק בתים יהודיים ברחבי ישראל. ✨\n\n👉 לתרומה – הצטרף אלינו`,
+   cta:'הצטרף לקהילת התורמים', format:'קרוסלת עדויות + תמונות מהשטח',
+   budget:'₪2,000–₪3,500'},
+  {month:'נובמבר 2026', emoji:'🍂', weeks:'23–26', season:'חורף • שגרה יהודית',
+   theme:'לבנות דורות, כוח המילים, בית של אמון',
+   audience:'סבים וסבתות 50–70, הורים מדאיגים לדור הבא',
+   targetGoal:'תרומות בשם נכדים / ילדים + תרומות זיכרון',
+   adCopy:`מה תשאיר לדור הבא? 🕯️\n\nכל תרומה לטהרת המשפחה היא מסורת שממשיכה. בית יהודי שנבנה. ילדים שגדלים עם שורשים.\n\nתרום לזכר / לכבוד / לעתיד. ❤️\n\n👉 לתרומה בשם יקיריך`,
+   cta:'לתרומה בשם יקיריך', format:'תמונת דורות + ציטוט + כפתור',
+   budget:'₪1,500–₪2,500'},
+  {month:'דצמבר 2026', emoji:'🕎', weeks:'27–30', season:'חנוכה • סוף שנה קלנדרית',
+   theme:'כיסופים, אמון, הודיה ואור',
+   audience:'יהודי תפוצות ועולי ישראל 30–60',
+   targetGoal:'תרומות גדולות לסוף שנה (tax benefits) + שיתופים בינלאומיים',
+   adCopy:`בחנוכה מדליקים אור. 🕎\n\nתרומתך מדליקה עוד אור – בבתים של ישראל.\n\nהמרכז הארצי לטהרת המשפחה: מחזקים בתים, מחברים לבין, בונים יחד.\n\n👉 לתרומת חנוכה – יחד נאיר ✨`,
+   cta:'לתרומת חנוכה', format:'וידאו נרות + מוזיקה + CTA חזק',
+   budget:'₪3,000–₪5,000'},
+  {month:'ינואר 2027', emoji:'✨', weeks:'31–34', season:'שנה חדשה אזרחית • מוטיבציה גבוהה',
+   theme:'נשים בונות דורות, לבחור בקשר, שמחה בבית',
+   audience:'נשים 25–55, מובילות קהילה, מסורתיות-דתיות',
+   targetGoal:'תרומות מנשים + רישום לאירועי נשים / ערבי נשים',
+   adCopy:`נשים בונות את הבית היהודי. 💜\n\nאבל הן לא לבד – המרכז הארצי לטהרת המשפחה עומד לצדן.\n\nהרצאות, ליווי, מקוואות, קהילה.\n\nתמכי בנשות ישראל – תרמי עכשיו. ❤️\n\n👉 לתרומה בשם אישה מיוחדת`,
+   cta:'לתרומה בשם אישה מיוחדת', format:'וידאו עדות אישה + תמונות ערבי נשים',
+   budget:'₪2,000–₪3,000'},
+  {month:'פברואר 2027', emoji:'🌱', weeks:'35–38', season:'ט"ו בשבט • לפני פורים',
+   theme:'אחריות הדדית, לבנות מקום לקדושה, לעצור ולהתחבר',
+   audience:'זוגות 30–50 שמחפשים חיזוק ביחסים',
+   targetGoal:'לידים לייעוץ זוגי / אירועי זוגות + תרומות',
+   adCopy:`לפעמים כל מה שצריך – זה לעצור. 🌱\n\nלראות את מי שלצדך. להקשיב. לבחור מחדש.\n\nאנחנו עוזרים לזוגות לבנות בית שמחזיק לאורך שנים.\n\n👉 לגלות עוד על הפעילות שלנו`,
+   cta:'לגילוי פעילות זוגות', format:'גרפיקת ציטוט + וידאו קצר של זוג',
+   budget:'₪1,500–₪2,500'},
+  {month:'מרץ 2027', emoji:'🎭', weeks:'39–43', season:'פורים • לפני פסח',
+   theme:'לבנות יחד, מילים מרפאות, קדושה בחיים',
+   audience:'כלל הציבור – עונת שמחה ונתינה',
+   targetGoal:'תרומות פורים + שיתוף ויראלי',
+   adCopy:`פורים – זמן של שמחה ונתינה. 🎭\n\nמשלוח מנות שמגיע ללב: תרומה לבניית בית יהודי חזק.\n\nכל שקל מחזק משפחה. כל משפחה מחזקת עם. ✨\n\n👉 תרום – מתנת פורים לעם ישראל`,
+   cta:'מתנת פורים – לתרומה', format:'גרפיקת פורים שמחה + כפתור תרומה',
+   budget:'₪2,500–₪4,000'},
+  {month:'אפריל 2027', emoji:'🌸', weeks:'44–47', season:'פסח • חג החירות',
+   theme:'כוח הדיבור, קדושה, בחירה בטוב',
+   audience:'כל המשפחה – ליל הסדר ואחריו',
+   targetGoal:'תרומות חג + לידים לפרויקטים קהילתיים',
+   adCopy:`חירות אמיתית מתחילה בבית. 🌸\n\nבפסח – כשמספרים את הסיפור שלנו – נזכור שהבית היהודי הוא בסיס הכל.\n\nהמרכז הארצי לטהרת המשפחה מחזק בתים ברחבי ישראל.\n\n👉 חג חירות שמח – תרום לחירות הבית`,
+   cta:'לתרומה – חג חירות', format:'וידאו שולחן ליל הסדר + מסר רגשי',
+   budget:'₪3,000–₪5,000'},
+  {month:'מאי 2027', emoji:'🌾', weeks:'48–52', season:'לג בעומר • שבועות • סיכום שנה',
+   theme:'ברכה בבית, כל משפחה חשובה, שנה של בתים בישראל',
+   audience:'כלל הציבור – סיכום שנה ושבועות',
+   targetGoal:'סיכום שנה + גיוס תורמים לשנה הבאה',
+   adCopy:`שנה שלמה של בתים בישראל. 🌾\n\nפגשנו נשים, זוגות ומשפחות שבחרו לחזק את הבית שלהם.\nכל סיפור כזה – עוד אור בעם ישראל.\n\nתודה לכל מי שהיה שותף השנה. 💜\nלשנה הבאה – בוא ניבנה יחד.\n\n👉 לתרומה ולחידוש השותפות`,
+   cta:'לחידוש השותפות לשנה הבאה', format:'וידאו סיכום שנה + קולאז׳ פעילות + CTA',
+   budget:'₪2,500–₪4,000'},
+];
+
+// ===== RENDER ANNUAL TABLE =====
+function renderAnnualTable() {
+  const tbody = document.getElementById('annual-tbody');
+  tbody.innerHTML = '';
+  annualData.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="week-num">${row[0]}</span></td>
+      <td contenteditable="true">${row[1]}</td>
+      <td contenteditable="true">${row[2]}</td>
+      <td contenteditable="true">${row[3]}</td>
+      <td><span class="presenter-badge" contenteditable="true">${row[4]}</span></td>
+      <td contenteditable="true">${row[5]}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ===== RENDER WEEKS =====
+function renderWeeks() {
+  const container = document.getElementById('weeks-container');
+  container.innerHTML = '';
+  weeksData.forEach((week, i) => {
+    const num = i + 1;
+    const card = document.createElement('div');
+    card.className = 'week-card';
+    card.id = `week-${num}`;
+
+    // FB copy text: for weeks 1-24 use weeklyPostCopy; for 25-52 opening post is copyable too
+    const shabbatPost = weeklyPostCopy[i] || '';
+    const openingPost = (week.type === 'post') ? (week.openingText || '') : '';
+
+    const fbOpeningBlock = (week.type === 'post') ? `
+      <div class="fb-post-block" style="margin-top:0;margin-bottom:14px;">
+        <h4>
+          <span>📢 פוסט פתיחת שבוע – מוכן להעתקה לפייסבוק</span>
+          <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
+        </h4>
+        <div class="fb-post-text" contenteditable="true">${openingPost}</div>
+        <div class="field-row" style="margin-top:10px;">
+          <span class="field-label">רעיון לתמונה</span>
+          <span class="field-value" contenteditable="true">${week.openingPhoto}</span>
+        </div>
+      </div>` : '';
+
+    let planHTML = '';
+    if (week.type === 'detailed') {
+      const emphasisItems = week.video.emphasis.map(e =>
+        `<div class="emphasis-item" contenteditable="true">${e}</div>`
+      ).join('');
+      planHTML = `
+        <div class="week-sections">
+          <div class="content-block video">
+            <h4>🎬 סרטון תחילת שבוע</h4>
+            <div class="field-row">
+              <span class="field-label">נושא</span>
+              <span class="field-value" contenteditable="true">${week.video.topic}</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">המסר המרכזי</span>
+              <span class="field-value" contenteditable="true">${week.video.message}</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">הדגשים לסרטון</span>
+              <div class="emphasis-edit">${emphasisItems}</div>
+            </div>
+            <div class="field-row">
+              <span class="field-label">רעיון לצילום</span>
+              <span class="field-value" contenteditable="true">${week.video.photo}</span>
+            </div>
+          </div>
+          <div class="content-block post">
+            <h4>📝 פוסט סוף שבוע – פרשת ${week.parasha}</h4>
+            <div class="field-row">
+              <span class="field-label">רעיון לפוסט</span>
+              <span class="field-value" contenteditable="true">${week.post.idea}</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">המסר</span>
+              <span class="field-value" contenteditable="true">${week.post.message}</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">תיאור תמונה</span>
+              <span class="field-value" contenteditable="true">${week.post.photo}</span>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      planHTML = `
+        <div style="margin-top:4px;">
+          <div class="content-block post">
+            <h4>📝 פוסט סוף שבוע – פרשת ${week.parasha}</h4>
+            <div class="field-row">
+              <span class="field-label">מסר</span>
+              <span class="field-value" contenteditable="true">${week.endMessage}</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">תיאור תמונה</span>
+              <span class="field-value" contenteditable="true">${week.endPhoto}</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    const shabbatBlock = shabbatPost ? `
+      <div class="fb-post-block">
+        <h4>
+          <span>✡️ פוסט שבת שלום – מוכן להעתקה לפייסבוק</span>
+          <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
+        </h4>
+        <div class="fb-post-text" contenteditable="true">${shabbatPost}</div>
+      </div>` : '';
+
+    card.innerHTML = `
+      <div class="week-header" onclick="toggleWeek(${num})">
+        <div class="num">${num}</div>
+        <div class="info">
+          <h3>${week.title}</h3>
+          <p>פרשת ${week.parasha} • ${week.type === 'detailed' ? 'סרטון + פוסט' : 'פוסט פתיחה + פוסט שבת'}</p>
+        </div>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="week-body">
+        ${fbOpeningBlock}
+        ${planHTML}
+        ${shabbatBlock}
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+// ===== COPY POST =====
+function copyPost(btn) {
+  const textEl = btn.closest('.fb-post-block').querySelector('.fb-post-text, .ad-copy-text');
+  const text = textEl ? textEl.innerText : '';
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ הועתק!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 העתק'; btn.classList.remove('copied'); }, 2200);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ הועתק!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 העתק'; btn.classList.remove('copied'); }, 2200);
+  });
+}
+
+// ===== RENDER MONTHLY ADS =====
+function renderMonthly() {
+  const container = document.getElementById('monthly-container');
+  if (!container) return;
+  container.innerHTML = '';
+  monthlyAdsData.forEach((m, i) => {
+    const card = document.createElement('div');
+    card.className = 'month-card';
+    card.innerHTML = `
+      <div class="month-header">
+        <div class="month-num">${m.emoji}</div>
+        <div>
+          <h3>${m.month}</h3>
+          <p>שבועות ${m.weeks} • ${m.season}</p>
+        </div>
+      </div>
+      <div class="month-body">
+        <div class="month-grid-inner">
+          <div class="month-field">
+            <span class="mf-label">נושא מרכזי</span>
+            <span class="mf-value" contenteditable="true">${m.theme}</span>
+          </div>
+          <div class="month-field">
+            <span class="mf-label">קהל יעד</span>
+            <span class="mf-value" contenteditable="true">${m.audience}</span>
+          </div>
+          <div class="month-field">
+            <span class="mf-label">מטרת הקמפיין</span>
+            <span class="mf-value" contenteditable="true">${m.targetGoal}</span>
+          </div>
+          <div class="month-field">
+            <span class="mf-label">פורמט מומלץ</span>
+            <span class="mf-value" contenteditable="true">${m.format}</span>
+          </div>
+          <div class="month-field">
+            <span class="mf-label">תקציב מוצע</span>
+            <span class="mf-value" contenteditable="true">${m.budget}</span>
+          </div>
+          <div class="month-field">
+            <span class="mf-label">קריאה לפעולה (CTA)</span>
+            <span class="mf-value" contenteditable="true">${m.cta}</span>
+          </div>
+        </div>
+        <div class="ad-copy-block">
+          <span class="ac-label">
+            <span>✍️ קופי מוכן לפרסום ממומן – להעתקה ועריכה</span>
+            <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
+          </span>
+          <div class="ad-copy-text" contenteditable="true">${m.adCopy}</div>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+// ===== NAVIGATION =====
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('#sidebar nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+  const titles = {overview:'סקירה כללית', annual:'טבלה שנתית', weeks:'תכנון שבועי', recs:'המלצות', monthly:'פרסום ממומן חודשי'};
+  document.getElementById('page-title').textContent = titles[name] || '';
+  return false;
+}
+
+function toggleWeek(num) {
+  const card = document.getElementById('week-' + num);
+  card.classList.toggle('open');
+}
+
+function expandAll() {
+  document.querySelectorAll('.week-card').forEach(c => c.classList.add('open'));
+}
+function collapseAll() {
+  document.querySelectorAll('.week-card').forEach(c => c.classList.remove('open'));
+}
+
+function scrollToWeek(num) {
+  setTimeout(() => {
+    const el = document.getElementById('week-' + num);
+    if (el) { el.classList.add('open'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  }, 100);
+}
+
+// ===== SAVE =====
+let saveTimer;
+function saveAll() {
+  const data = {};
+  document.querySelectorAll('[contenteditable]').forEach((el, i) => {
+    data['el_' + i] = el.innerHTML;
+  });
+  localStorage.setItem('tahara_plan_2026', JSON.stringify(data));
+  const ind = document.getElementById('save-indicator');
+  ind.classList.add('show');
+  setTimeout(() => ind.classList.remove('show'), 2000);
+}
+
+function loadSaved() {
+  const saved = localStorage.getItem('tahara_plan_2026');
+  if (!saved) return;
+  const data = JSON.parse(saved);
+  document.querySelectorAll('[contenteditable]').forEach((el, i) => {
+    if (data['el_' + i] !== undefined) el.innerHTML = data['el_' + i];
+  });
+}
+
+document.addEventListener('input', () => {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveAll, 1500);
+});
+
+// ===== INIT =====
+renderAnnualTable();
+renderWeeks();
+renderMonthly();
+document.getElementById('nav-overview').classList.add('active');
+setTimeout(loadSaved, 100);
+</script>
+</body>
+</html>
