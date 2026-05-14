@@ -658,10 +658,10 @@
     <a href="#" onclick="showSection('monthly')" id="nav-monthly">💰 פרסום ממומן חודשי</a>
     <div class="section-header">שבועות מהירים</div>
     <a href="#" onclick="showSection('weeks');scrollToWeek(1)">שבוע 1 – יציבות בזוגיות</a>
-    <a href="#" onclick="showSection('weeks');scrollToWeek(5)">שבוע 5 – זוגיות בעומס</a>
-    <a href="#" onclick="showSection('weeks');scrollToWeek(12)">שבוע 12 – מאחורי המקווה</a>
-    <a href="#" onclick="showSection('weeks');scrollToWeek(21)">שבוע 21 – התחלה חדשה</a>
-    <a href="#" onclick="showSection('weeks');scrollToWeek(52)">שבוע 52 – שנה של בתים</a>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(2)">שבוע 2</a>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(3)">שבוע 3</a>
+    <a href="#" onclick="showSection('weeks');scrollToWeek(4)">שבוע 4</a>
+    <!-- hidden: weeks 5–52 preserved in weeksData array -->
   </nav>
   <div class="actions">
     <button id="lock-toggle-btn" onclick="openPinModal()">🔒 נעול לעריכה</button>
@@ -1434,7 +1434,9 @@ function renderAnnualTable() {
 function renderWeeks() {
   const container = document.getElementById('weeks-container');
   container.innerHTML = '';
-  weeksData.forEach((week, i) => {
+  // DEMO MODE: showing only first 4 weeks — all data is preserved below
+  const visibleWeeks = weeksData.slice(0, 4);
+  visibleWeeks.forEach((week, i) => {
     const num = i + 1;
     const card = document.createElement('div');
     card.className = 'week-card';
@@ -1566,7 +1568,9 @@ function renderMonthly() {
   const container = document.getElementById('monthly-container');
   if (!container) return;
   container.innerHTML = '';
-  monthlyAdsData.forEach((m, i) => {
+  // DEMO MODE: showing only first month — all data is preserved below
+  const visibleMonths = monthlyAdsData.slice(0, 1);
+  visibleMonths.forEach((m, i) => {
     const card = document.createElement('div');
     card.className = 'month-card';
     card.innerHTML = `
