@@ -638,6 +638,37 @@
   #sidebar::-webkit-scrollbar-track { background: transparent; }
   #sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 </style>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC3excTyUSR_t44VhYmK8fnVvkYzhCkRyM",
+    authDomain: "thramark-ed64f.firebaseapp.com",
+    databaseURL: "https://thramark-ed64f-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "thramark-ed64f",
+    storageBucket: "thramark-ed64f.firebasestorage.app",
+    messagingSenderId: "179992140135",
+    appId: "1:179992140135:web:b3b38ab6a38b7ced2637c2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const contentRef = ref(db, 'content/plan2026');
+
+  window._fbSave = function(data) {
+    set(contentRef, data);
+  };
+
+  onValue(contentRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+    const els = document.querySelectorAll('[contenteditable]');
+    els.forEach((el, i) => {
+      if (data['el_' + i] !== undefined) el.innerHTML = data['el_' + i];
+    });
+  }, { onlyOnce: false });
+</script>
 </head>
 <body>
 
@@ -1652,19 +1683,16 @@ function saveAll() {
   document.querySelectorAll('[contenteditable]').forEach((el, i) => {
     data['el_' + i] = el.innerHTML;
   });
-  localStorage.setItem('tahara_plan_2026', JSON.stringify(data));
+  if (typeof window._fbSave === 'function') {
+    window._fbSave(data);
+  }
   const ind = document.getElementById('save-indicator');
   ind.classList.add('show');
   setTimeout(() => ind.classList.remove('show'), 2000);
 }
 
 function loadSaved() {
-  const saved = localStorage.getItem('tahara_plan_2026');
-  if (!saved) return;
-  const data = JSON.parse(saved);
-  document.querySelectorAll('[contenteditable]').forEach((el, i) => {
-    if (data['el_' + i] !== undefined) el.innerHTML = data['el_' + i];
-  });
+  // טעינה מטופלת על ידי Firebase listener בראש הדף
 }
 
 document.addEventListener('input', () => {
