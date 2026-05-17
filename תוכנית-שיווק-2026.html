@@ -166,6 +166,11 @@
     pointer-events: none;
   }
   body.locked [contenteditable]:hover { background: transparent; }
+  body.locked textarea {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.7;
+  }
 
   /* PIN MODAL */
   #pin-overlay {
@@ -776,18 +781,18 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:12px;">
           <div style="background:var(--video-bg);border-radius:10px;padding:14px;">
             <div style="font-size:22px;margin-bottom:6px;">🎙️</div>
-            <div style="font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:4px;" contenteditable="true">פודקאסט</div>
-            <div style="font-size:12px;color:var(--text-muted);" contenteditable="true">שיחות עומק עם רבניות, מטפלות זוגיות ונשים מהקהילה. ניתן לפרסם קטעים כריילז ופוסטים.</div>
+            <div style="font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:4px;">פודקאסט</div>
+            <div style="font-size:12px;color:var(--text-muted);">שיחות עומק עם רבניות, מטפלות זוגיות ונשים מהקהילה. ניתן לפרסם קטעים כריילז ופוסטים.</div>
           </div>
           <div style="background:var(--post-bg);border-radius:10px;padding:14px;">
             <div style="font-size:22px;margin-bottom:6px;">💻</div>
-            <div style="font-size:13px;font-weight:700;color:#8B6A20;margin-bottom:4px;" contenteditable="true">וובינר</div>
-            <div style="font-size:12px;color:var(--text-muted);" contenteditable="true">מפגשים מקוונים עם מומחים ורבניות. מייצרים תוכן ווידאו, ציטוטים ופוסטים לאחר מכן.</div>
+            <div style="font-size:13px;font-weight:700;color:#8B6A20;margin-bottom:4px;">וובינר</div>
+            <div style="font-size:12px;color:var(--text-muted);">מפגשים מקוונים עם מומחים ורבניות. מייצרים תוכן ווידאו, ציטוטים ופוסטים לאחר מכן.</div>
           </div>
           <div style="background:#EDF7EE;border-radius:10px;padding:14px;">
             <div style="font-size:22px;margin-bottom:6px;">🎬</div>
-            <div style="font-size:13px;font-weight:700;color:#2E6B35;margin-bottom:4px;" contenteditable="true">ריילז וסרטונים קצרים</div>
-            <div style="font-size:12px;color:var(--text-muted);" contenteditable="true">תוכן קצר ועוצמתי לפייסבוק ואינסטגרם. ציטוטים, שאלות פתוחות, סיפורים קצרים – 30 עד 90 שניות.</div>
+            <div style="font-size:13px;font-weight:700;color:#2E6B35;margin-bottom:4px;">ריילז וסרטונים קצרים</div>
+            <div style="font-size:12px;color:var(--text-muted);">תוכן קצר ועוצמתי לפייסבוק ואינסטגרם. ציטוטים, שאלות פתוחות, סיפורים קצרים – 30 עד 90 שניות.</div>
           </div>
         </div>
       </div>
@@ -1797,6 +1802,9 @@ function setLocked(locked) {
   isUnlocked = !locked;
   document.querySelectorAll('[contenteditable]').forEach(el => {
     el.contentEditable = locked ? 'false' : 'true';
+  });
+  document.querySelectorAll('textarea').forEach(el => {
+    el.disabled = locked;
   });
   const btn = document.getElementById('lock-toggle-btn');
   const meta = document.getElementById('edit-meta');
