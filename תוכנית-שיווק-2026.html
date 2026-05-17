@@ -594,10 +594,16 @@
     margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;
   }
   .fb-post-text {
-    font-size: 14px; line-height: 1.85; white-space: pre-wrap;
-    padding: 10px; border-radius: 6px; min-height: 60px;
+    width: 100%;
+    font-size: 14px; line-height: 1.85;
+    padding: 10px; border-radius: 6px; min-height: 120px;
     background: rgba(255,255,255,0.6);
+    border: none; resize: vertical;
+    font-family: 'Heebo', sans-serif;
+    direction: rtl; color: var(--text);
+    outline: none;
   }
+  textarea.fb-post-text:focus { background: rgba(255,255,255,0.9); }
   .copy-btn {
     display: inline-flex; align-items: center; gap: 5px;
     background: #1877F2; color: #fff; border: none; border-radius: 6px;
@@ -1543,7 +1549,7 @@ function renderWeeks() {
               <span>✡️ פוסט שבת שלום – מוכן להעתקה לפייסבוק</span>
               <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
             </h4>
-            <div class="fb-post-text" contenteditable="true">${shabbatPost}</div>
+            <textarea class="fb-post-text">${shabbatPost}</textarea>
           </div>` : ''}
         </div>`;
     } else {
@@ -1565,7 +1571,7 @@ function renderWeeks() {
               <span>✡️ פוסט שבת שלום – מוכן להעתקה לפייסבוק</span>
               <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
             </h4>
-            <div class="fb-post-text" contenteditable="true">${shabbatPost}</div>
+            <textarea class="fb-post-text">${shabbatPost}</textarea>
           </div>` : ''}
         </div>`;
     }
@@ -1593,8 +1599,8 @@ function renderWeeks() {
 
 // ===== COPY POST =====
 function copyPost(btn) {
-  const textEl = btn.closest('.fb-post-block').querySelector('.fb-post-text, .ad-copy-text');
-  const text = textEl ? textEl.innerText : '';
+  const textEl = btn.closest('.fb-post-block, .ad-copy-block').querySelector('.fb-post-text, .ad-copy-text');
+  const text = textEl ? (textEl.tagName === 'TEXTAREA' ? textEl.value : textEl.innerText) : '';
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = '✓ הועתק!';
     btn.classList.add('copied');
@@ -1805,6 +1811,7 @@ function setLocked(locked) {
   });
   document.querySelectorAll('textarea').forEach(el => {
     el.disabled = locked;
+    el.readOnly = locked;
   });
   const btn = document.getElementById('lock-toggle-btn');
   const meta = document.getElementById('edit-meta');
