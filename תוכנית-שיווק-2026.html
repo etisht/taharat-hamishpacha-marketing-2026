@@ -478,24 +478,53 @@
     border-radius: 4px;
     display: block;
   }
-  .emphasis-edit {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .emphasis-item {
+  .emphasis-textarea {
+    width: 100%;
+    min-height: 90px;
     font-size: 13px;
-    padding: 3px 6px;
-    border-radius: 4px;
-    display: flex;
-    gap: 6px;
-    align-items: flex-start;
+    font-family: 'Heebo', sans-serif;
+    line-height: 1.7;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: rgba(255,255,255,0.7);
+    color: var(--text);
+    resize: vertical;
+    direction: rtl;
+    outline: none;
+    transition: border-color 0.15s;
   }
-  .emphasis-item::before {
-    content: '•';
-    color: var(--primary-light);
-    flex-shrink: 0;
+  .emphasis-textarea:focus { border-color: var(--primary-light); }
+  .week-notes-block {
+    margin-top: 16px;
+    background: #F3F0F8;
+    border-radius: 12px;
+    padding: 16px;
   }
+  .week-notes-block label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .week-notes-textarea {
+    width: 100%;
+    min-height: 80px;
+    font-size: 13px;
+    font-family: 'Heebo', sans-serif;
+    line-height: 1.7;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: rgba(255,255,255,0.8);
+    color: var(--text);
+    resize: vertical;
+    direction: rtl;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .week-notes-textarea:focus { border-color: var(--primary-light); }
   .post-text-block {
     background: var(--post-bg);
     border-radius: 12px;
@@ -654,7 +683,7 @@
     <a href="#" onclick="showSection('overview')" id="nav-overview">🎯 סקירה כללית</a>
     <a href="#" onclick="showSection('annual')" id="nav-annual">📅 טבלה שנתית</a>
     <a href="#" onclick="showSection('weeks')" id="nav-weeks">📝 תכנון שבועי</a>
-    <a href="#" onclick="showSection('recs')" id="nav-recs">💡 המלצות</a>
+    <a href="#" onclick="showSection('recs')" id="nav-recs" style="display:none;">💡 המלצות</a>
     <a href="#" onclick="showSection('monthly')" id="nav-monthly">💰 פרסום ממומן חודשי</a>
     <div class="section-header">שבועות מהירים</div>
     <a href="#" onclick="showSection('weeks');scrollToWeek(1)">שבוע 1 – יציבות בזוגיות</a>
@@ -743,6 +772,27 @@
       </div>
 
       <div class="info-card" style="grid-column: 1 / -1;">
+        <h3>פעילויות שיווקיות נוספות שיכולות לייצר תוכן</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:12px;">
+          <div style="background:var(--video-bg);border-radius:10px;padding:14px;">
+            <div style="font-size:22px;margin-bottom:6px;">🎙️</div>
+            <div style="font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:4px;" contenteditable="true">פודקאסט</div>
+            <div style="font-size:12px;color:var(--text-muted);" contenteditable="true">שיחות עומק עם רבניות, מטפלות זוגיות ונשים מהקהילה. ניתן לפרסם קטעים כריילז ופוסטים.</div>
+          </div>
+          <div style="background:var(--post-bg);border-radius:10px;padding:14px;">
+            <div style="font-size:22px;margin-bottom:6px;">💻</div>
+            <div style="font-size:13px;font-weight:700;color:#8B6A20;margin-bottom:4px;" contenteditable="true">וובינר</div>
+            <div style="font-size:12px;color:var(--text-muted);" contenteditable="true">מפגשים מקוונים עם מומחים ורבניות. מייצרים תוכן ווידאו, ציטוטים ופוסטים לאחר מכן.</div>
+          </div>
+          <div style="background:#EDF7EE;border-radius:10px;padding:14px;">
+            <div style="font-size:22px;margin-bottom:6px;">🎬</div>
+            <div style="font-size:13px;font-weight:700;color:#2E6B35;margin-bottom:4px;" contenteditable="true">ריילז וסרטונים קצרים</div>
+            <div style="font-size:12px;color:var(--text-muted);" contenteditable="true">תוכן קצר ועוצמתי לפייסבוק ואינסטגרם. ציטוטים, שאלות פתוחות, סיפורים קצרים – 30 עד 90 שניות.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card" style="grid-column: 1 / -1;">
         <h3>מבנה תוכן שבועי קבוע</h3>
         <table class="weekly-structure-table">
           <thead>
@@ -803,7 +853,7 @@
   </section>
 
   <!-- ===== SECTION: RECOMMENDATIONS ===== -->
-  <section class="section" id="sec-recs">
+  <section class="section" id="sec-recs" style="display:none!important;">
     <div class="section-title">המלצות נוספות</div>
     <div class="section-subtitle">סוגי תוכן מומלצים ומדדי הצלחה</div>
     <div class="recs-grid">
@@ -1461,9 +1511,7 @@ function renderWeeks() {
 
     let planHTML = '';
     if (week.type === 'detailed') {
-      const emphasisItems = week.video.emphasis.map(e =>
-        `<div class="emphasis-item" contenteditable="true">${e}</div>`
-      ).join('');
+      const emphasisText = week.video.emphasis.join('\n');
       planHTML = `
         <div class="week-sections">
           <div class="content-block video">
@@ -1477,29 +1525,21 @@ function renderWeeks() {
               <span class="field-value" contenteditable="true">${week.video.message}</span>
             </div>
             <div class="field-row">
-              <span class="field-label">הדגשים לסרטון</span>
-              <div class="emphasis-edit">${emphasisItems}</div>
+              <span class="field-label">דגשים לסרטון</span>
+              <textarea class="emphasis-textarea">${emphasisText}</textarea>
             </div>
             <div class="field-row">
               <span class="field-label">רעיון לצילום</span>
               <span class="field-value" contenteditable="true">${week.video.photo}</span>
             </div>
           </div>
-          <div class="content-block post">
-            <h4>📝 פוסט סוף שבוע – פרשת ${week.parasha}</h4>
-            <div class="field-row">
-              <span class="field-label">רעיון לפוסט</span>
-              <span class="field-value" contenteditable="true">${week.post.idea}</span>
-            </div>
-            <div class="field-row">
-              <span class="field-label">המסר</span>
-              <span class="field-value" contenteditable="true">${week.post.message}</span>
-            </div>
-            <div class="field-row">
-              <span class="field-label">תיאור תמונה</span>
-              <span class="field-value" contenteditable="true">${week.post.photo}</span>
-            </div>
-          </div>
+          ${shabbatPost ? `<div class="fb-post-block" style="margin-top:0;">
+            <h4>
+              <span>✡️ פוסט שבת שלום – מוכן להעתקה לפייסבוק</span>
+              <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
+            </h4>
+            <div class="fb-post-text" contenteditable="true">${shabbatPost}</div>
+          </div>` : ''}
         </div>`;
     } else {
       planHTML = `
@@ -1515,17 +1555,15 @@ function renderWeeks() {
               <span class="field-value" contenteditable="true">${week.endPhoto}</span>
             </div>
           </div>
+          ${shabbatPost ? `<div class="fb-post-block">
+            <h4>
+              <span>✡️ פוסט שבת שלום – מוכן להעתקה לפייסבוק</span>
+              <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
+            </h4>
+            <div class="fb-post-text" contenteditable="true">${shabbatPost}</div>
+          </div>` : ''}
         </div>`;
     }
-
-    const shabbatBlock = shabbatPost ? `
-      <div class="fb-post-block">
-        <h4>
-          <span>✡️ פוסט שבת שלום – מוכן להעתקה לפייסבוק</span>
-          <button class="copy-btn" onclick="copyPost(this)">📋 העתק</button>
-        </h4>
-        <div class="fb-post-text" contenteditable="true">${shabbatPost}</div>
-      </div>` : '';
 
     card.innerHTML = `
       <div class="week-header" onclick="toggleWeek(${num})">
@@ -1539,7 +1577,10 @@ function renderWeeks() {
       <div class="week-body">
         ${fbOpeningBlock}
         ${planHTML}
-        ${shabbatBlock}
+        <div class="week-notes-block">
+          <label>📌 רעיונות נוספים ודגשים לשבוע</label>
+          <textarea class="week-notes-textarea" placeholder="הוסף כאן רעיונות, הערות או דגשים מיוחדים לשבוע זה..."></textarea>
+        </div>
       </div>`;
     container.appendChild(card);
   });
