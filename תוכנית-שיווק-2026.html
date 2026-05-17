@@ -485,21 +485,23 @@
   }
   .emphasis-textarea {
     width: 100%;
-    min-height: 90px;
     font-size: 13px;
     font-family: 'Heebo', sans-serif;
-    line-height: 1.7;
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
-    background: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
     color: var(--text);
-    resize: vertical;
+    resize: none;
+    overflow: hidden;
     direction: rtl;
     outline: none;
-    transition: border-color 0.15s;
+    display: block;
+    transition: background 0.15s;
   }
-  .emphasis-textarea:focus { border-color: var(--primary-light); }
+  .emphasis-textarea:hover { background: rgba(107,76,139,0.06); }
+  .emphasis-textarea:focus { background: rgba(107,76,139,0.1); box-shadow: 0 0 0 2px rgba(107,76,139,0.3); }
   .week-notes-block {
     margin-top: 16px;
     background: #F3F0F8;
@@ -596,9 +598,9 @@
   .fb-post-text {
     width: 100%;
     font-size: 14px; line-height: 1.85;
-    padding: 10px; border-radius: 6px; min-height: 120px;
+    padding: 10px; border-radius: 6px;
     background: rgba(255,255,255,0.6);
-    border: none; resize: vertical;
+    border: none; resize: none; overflow: hidden;
     font-family: 'Heebo', sans-serif;
     direction: rtl; color: var(--text);
     outline: none;
@@ -1703,6 +1705,14 @@ function scrollToWeek(num) {
   }, 100);
 }
 
+// ===== AUTO-RESIZE TEXTAREAS =====
+function autoResizeAll() {
+  document.querySelectorAll('.emphasis-textarea, .fb-post-text').forEach(el => {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  });
+}
+
 // ===== SAVE =====
 let saveTimer;
 function saveAll() {
@@ -1722,7 +1732,11 @@ function loadSaved() {
   // טעינה מטופלת על ידי Firebase listener
 }
 
-document.addEventListener('input', () => {
+document.addEventListener('input', (e) => {
+  if (e.target.classList.contains('emphasis-textarea') || e.target.classList.contains('fb-post-text')) {
+    e.target.style.height = 'auto';
+    e.target.style.height = e.target.scrollHeight + 'px';
+  }
   clearTimeout(saveTimer);
   saveTimer = setTimeout(saveAll, 1500);
 });
@@ -1830,6 +1844,7 @@ function setLocked(locked) {
 renderAnnualTable();
 renderWeeks();
 renderMonthly();
+autoResizeAll();
 document.getElementById('nav-overview').classList.add('active');
 setLocked(true);
 
@@ -1857,6 +1872,7 @@ _contentRef.on('value', (snapshot) => {
   document.querySelectorAll('[contenteditable]').forEach((el, i) => {
     if (data['el_' + i] !== undefined) el.innerHTML = data['el_' + i];
   });
+  autoResizeAll();
 }, (err) => console.error('Firebase read error:', err));
 </script>
 </body>
