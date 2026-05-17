@@ -1689,10 +1689,22 @@ function showSection(name) {
 function toggleWeek(num) {
   const card = document.getElementById('week-' + num);
   card.classList.toggle('open');
+  if (card.classList.contains('open')) {
+    card.querySelectorAll('.emphasis-textarea, .fb-post-text').forEach(el => {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    });
+  }
 }
 
 function expandAll() {
-  document.querySelectorAll('.week-card').forEach(c => c.classList.add('open'));
+  document.querySelectorAll('.week-card').forEach(c => {
+    c.classList.add('open');
+    c.querySelectorAll('.emphasis-textarea, .fb-post-text').forEach(el => {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    });
+  });
 }
 function collapseAll() {
   document.querySelectorAll('.week-card').forEach(c => c.classList.remove('open'));
